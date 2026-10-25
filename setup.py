@@ -31,14 +31,14 @@ setup(
     platforms='any',
     python_requires='>=3.7',
     install_requires=install_requires,
-    tests_require=tests_require,
-    test_suite='tests',
+    extras_require={
+        'tests': tests_require,
+    },
     classifiers=[
         'Programming Language :: Python :: 3',
         'Development Status :: 4 - Beta',
         'Environment :: Web Environment',
         'Intended Audience :: Developers',
-        'License :: OSI Approved :: BSD License',
         'Operating System :: OS Independent',
         'Topic :: Utilities'
     ],
