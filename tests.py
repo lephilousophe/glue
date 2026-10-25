@@ -14,7 +14,7 @@ except ImportError:
 import plistlib
 
 from PIL import Image as PILImage
-import cssutils
+import css_parser
 
 try:
     from mock import patch, Mock
@@ -48,7 +48,7 @@ class TestGlue(unittest.TestCase):
     TEST_PATH = 'tests_tmp/'
 
     def setUp(self):
-        cssutils.log.setLevel(logging.ERROR)
+        css_parser.log.setLevel(logging.ERROR)
         self.base_path = os.path.dirname(os.path.abspath(__file__))
         self.output_path = os.path.join(self.base_path, self.TEST_PATH)
         shutil.rmtree(self.output_path, True)
@@ -87,15 +87,15 @@ class TestGlue(unittest.TestCase):
                 assert False, f"{path} {point} should be {COLORS.get(color, color)} but is {COLORS.get(image_color, image_color)}"
 
     def assertCSS(self, path, class_name, properties, ratio=None):
-        stylesheet = cssutils.parseFile(path, validate=False)
+        stylesheet = css_parser.parseFile(path, validate=False)
 
         file_properties = {}
         for rule in stylesheet.cssRules:
-            if isinstance(rule, cssutils.css.CSSStyleRule):
+            if isinstance(rule, css_parser.css.CSSStyleRule):
                 if class_name in [c.selectorText for c in rule.selectorList]:
                     for declaration in rule.style.getProperties():
                         file_properties[declaration.name] = declaration.value
-            elif isinstance(rule, cssutils.css.CSSMediaRule) and ratio:
+            elif isinstance(rule, css_parser.css.CSSMediaRule) and ratio:
                 if f'min-resolution: {ratio}' in rule.media.mediaText:
                     for media_rule in rule.cssRules:
                         if class_name in [c.selectorText for c in media_rule.selectorList]:

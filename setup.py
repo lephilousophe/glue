@@ -11,7 +11,7 @@ install_requires=[
 
 tests_require=[
     'pytest>=9.1,<9.2',
-    'cssutils>=2.0,<3',
+    'css-parser>=1.1,<2',
 ]
 
 setup(
