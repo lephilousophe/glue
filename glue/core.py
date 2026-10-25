@@ -1,17 +1,16 @@
-import re
-import os
-import sys
+import configparser
 import copy
 import hashlib
 import io
-import configparser
+import os
+import re
 
 from PIL import Image as PILImage
 
 from glue.algorithms import algorithms
-from glue.helpers import cached_property, round_up
+from glue.exceptions import PILUnavailableError, SourceImagesNotFoundError
 from glue.formats import ImageFormat
-from glue.exceptions import SourceImagesNotFoundError, PILUnavailableError
+from glue.helpers import cached_property, round_up
 
 
 class ConfigurableFromFile:

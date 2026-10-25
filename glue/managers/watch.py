@@ -1,8 +1,8 @@
+import hashlib
 import os
+import signal
 import sys
 import time
-import signal
-import hashlib
 
 
 class WatchManager:

@@ -4,7 +4,8 @@ from PIL import Image as PILImage
 from PIL import PngImagePlugin
 
 from glue import __version__
-from glue.helpers import round_up, cached_property
+from glue.helpers import cached_property, round_up
+
 from .base import BaseFormat
 
 

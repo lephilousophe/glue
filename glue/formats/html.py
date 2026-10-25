@@ -2,6 +2,7 @@ import os
 
 from .css import CssFormat
 
+
 class HtmlFormat(CssFormat):
 
     extension = 'html'

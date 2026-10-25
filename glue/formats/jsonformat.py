@@ -1,5 +1,4 @@
 import os
-import json
 
 try:
     from collections import OrderedDict

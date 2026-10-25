@@ -1,8 +1,9 @@
 import os
 
-from glue.exceptions import NoSpritesFoldersFoundError
-from .base import BaseManager
 from glue.core import ConfigurableFromFile
+from glue.exceptions import NoSpritesFoldersFoundError
+
+from .base import BaseManager
 
 
 class ProjectManager(BaseManager, ConfigurableFromFile):

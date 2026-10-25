@@ -1,10 +1,10 @@
-import re
 import os
+import re
 
 from glue import __version__
-from .base import JinjaTextFormat
 
 from ..exceptions import ValidationError
+from .base import JinjaTextFormat
 
 
 class CssFormat(JinjaTextFormat):

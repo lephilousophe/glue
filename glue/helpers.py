@@ -1,6 +1,5 @@
-import os
-import sys
 import contextlib
+import sys
 from fractions import Fraction
 from io import StringIO
 

@@ -1,12 +1,11 @@
-from .css import CssFormat
-from .cocos2d import Cocos2dFormat
-from .img import ImageFormat
-from .html import HtmlFormat
-from .jsonformat import JSONFormat
 from .caat import CAATFormat
+from .cocos2d import Cocos2dFormat
+from .css import CssFormat
+from .html import HtmlFormat
+from .img import ImageFormat
+from .jsonformat import JSONFormat
 from .less import LessFormat
 from .scss import ScssFormat
-
 
 formats = {'css': CssFormat,
            'cocos2d': Cocos2dFormat,

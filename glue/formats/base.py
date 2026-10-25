@@ -1,13 +1,12 @@
-import os
-import sys
 import json
+import os
 import plistlib
 import textwrap
 
 from jinja2 import Template
 
-from glue.helpers import round_up, nearest_fration
 from glue import __version__
+from glue.helpers import nearest_fration, round_up
 
 
 class BaseFormat:

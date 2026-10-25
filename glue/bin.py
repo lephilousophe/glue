@@ -1,15 +1,13 @@
 #!/usr/bin/env python
+import argparse
 import os
 import sys
-import argparse
 
 from PIL import Image as PImage
 
+from glue import __version__, exceptions, managers
 from glue.formats import formats
 from glue.helpers import redirect_stdout
-from glue import exceptions
-from glue import managers
-from glue import __version__
 
 
 def main(argv=None):

@@ -1,9 +1,8 @@
-import os
-import sys
 import json
+import logging
+import os
 import shutil
 import unittest
-import logging
 
 try:
     from StringIO import StringIO
@@ -11,16 +10,14 @@ except ImportError:
     from io import StringIO
 
 import plistlib
+from unittest.mock import Mock, patch
 
-from PIL import Image as PILImage
 import css_parser
-
-from unittest.mock import patch, Mock
+from PIL import Image as PILImage
 
 from glue.bin import main
 from glue.core import Image
 from glue.helpers import redirect_stdout
-
 
 RED = (255, 0, 0, 255)
 CYAN = (0, 255, 255, 255)
