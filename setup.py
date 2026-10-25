@@ -5,7 +5,7 @@ import sys
 from setuptools import setup, find_packages
 
 install_requires=[
-    'Pillow>=2.2.2',
+    'Pillow>=9.0',
     'Jinja2>=3.1,<3.2',
 ]
 

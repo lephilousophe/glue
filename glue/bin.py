@@ -259,7 +259,7 @@ def main(argv=None):
         sys.stderr.write("\n")
         sys.stderr.write(f"Version: {__version__}\n")
         sys.stderr.write(f"Python: {sys.version}\n")
-        sys.stderr.write(f"PIL version: {PImage.VERSION}\n")
+        sys.stderr.write(f"PIL version: {PImage.__version__}\n")
         sys.stderr.write(f"Platform: {platform.platform()}\n")
         sys.stderr.write(f"Config: {vars(options)}\n")
         sys.stderr.write(f"Args: {sys.argv}\n\n")
