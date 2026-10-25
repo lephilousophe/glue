@@ -72,8 +72,7 @@ class TestGlue(unittest.TestCase):
             else:
                 match = image_color == color
 
-            if not match:
-                assert False, f"{path} {point} should be {COLORS.get(color, color)} but is {COLORS.get(image_color, image_color)}"
+            assert match, f"{path} {point} should be {COLORS.get(color, color)} but is {COLORS.get(image_color, image_color)}"
 
     def assertCSS(self, path, class_name, properties, ratio=None):
         stylesheet = css_parser.parseFile(path, validate=False)
@@ -90,7 +89,7 @@ class TestGlue(unittest.TestCase):
                         if class_name in [c.selectorText for c in media_rule.selectorList]:
                             for declaration in media_rule.style.getProperties():
                                 file_properties[declaration.name] = declaration.value
-        self.assertEqual(file_properties, properties)
+        assert file_properties == properties
 
     def create_image(self, path, color=RED, size=(64, 64), margin=0, margin_color=TRANSPARENT):
         dirname = os.path.dirname(path)
@@ -118,12 +117,12 @@ class TestGlue(unittest.TestCase):
     def test_simple(self):
         os.mkdir('simple')
         code = self.call("glue simple output")
-        self.assertEqual(code, 4)
+        assert code == 4
 
         self.create_image("simple/red.png", RED)
         self.create_image("simple/blue.png", BLUE)
         code = self.call("glue simple output")
-        self.assertEqual(code, 0)
+        assert code == 0
 
         self.assertExists("output/simple.png")
         self.assertExists("output/simple.css")
@@ -148,7 +147,7 @@ class TestGlue(unittest.TestCase):
         self.create_image("simple/red.png", RED)
         self.create_image("simple/blue.png", BLUE)
         code = self.call("glue --source=simple output")
-        self.assertEqual(code, 0)
+        assert code == 0
 
         self.assertExists("output/simple.png")
         self.assertExists("output/simple.css")
@@ -173,7 +172,7 @@ class TestGlue(unittest.TestCase):
         self.create_image("simple/red.png", RED)
         self.create_image("simple/blue.png", BLUE)
         code = self.call("glue simple --output=output")
-        self.assertEqual(code, 0)
+        assert code == 0
 
         self.assertExists("output/simple.png")
         self.assertExists("output/simple.css")
@@ -198,15 +197,15 @@ class TestGlue(unittest.TestCase):
         self.create_image("simple/red.png", RED)
         self.create_image("simple/blue.png", BLUE)
         code, out = self.call("glue simple output --quiet", capture=True)
-        self.assertEqual(code, 0)
-        self.assertEqual(out, "")
+        assert code == 0
+        assert out == ""
 
     def test_recursive(self):
         self.create_image("simple/red.png", RED)
         self.create_image("simple/blue.png", BLUE)
         self.create_image("simple/sub/green.png", GREEN)
         code = self.call("glue simple output --recursive")
-        self.assertEqual(code, 0)
+        assert code == 0
 
         self.assertExists("output/simple.png")
         self.assertExists("output/simple.css")
@@ -239,7 +238,7 @@ class TestGlue(unittest.TestCase):
         # Empty project
         os.mkdir("sprites")
         code = self.call("glue sprites output --project")
-        self.assertEqual(code, 5)
+        assert code == 5
 
         self.create_image("sprites/icons/red.png", RED)
         self.create_image("sprites/icons/blue.png", BLUE)
@@ -247,7 +246,7 @@ class TestGlue(unittest.TestCase):
         self.create_image("sprites/menu/yellow.png", YELLOW)
         self.create_image("sprites/.ignore/pink.png", PINK)
         code = self.call("glue sprites output --project")
-        self.assertEqual(code, 0)
+        assert code == 0
 
         self.assertExists("output/icons.png")
         self.assertExists("output/icons.css")
@@ -302,7 +301,7 @@ class TestGlue(unittest.TestCase):
         self.create_image("sprites/menu/yellow.png", YELLOW)
         self.create_image("sprites/.ignore/pink.png", PINK)
         code = self.call("glue sprites output --project")
-        self.assertEqual(code, 0)
+        assert code == 0
 
         self.assertExists("output/icons.png")
         self.assertExists("css/icons.css")
@@ -317,7 +316,7 @@ class TestGlue(unittest.TestCase):
         self.create_image("simple/blue.png", BLUE)
         self.create_image("simple/yellow.png", YELLOW)
         code = self.call("glue simple output --algorithm=diagonal")
-        self.assertEqual(code, 0)
+        assert code == 0
 
         self.assertExists("output/simple.png")
         self.assertExists("output/simple.css")
@@ -351,7 +350,7 @@ class TestGlue(unittest.TestCase):
         self.create_image("simple/blue.png", BLUE)
         self.create_image("simple/yellow.png", YELLOW)
         code = self.call("glue simple output --algorithm=horizontal")
-        self.assertEqual(code, 0)
+        assert code == 0
 
         self.assertExists("output/simple.png")
         self.assertExists("output/simple.css")
@@ -385,7 +384,7 @@ class TestGlue(unittest.TestCase):
         self.create_image("simple/blue.png", BLUE, (32, 32))
         self.create_image("simple/yellow.png", YELLOW, (16, 16))
         code = self.call("glue simple output --algorithm=horizontal-bottom")
-        self.assertEqual(code, 0)
+        assert code == 0
 
         self.assertExists("output/simple.png")
         self.assertExists("output/simple.css")
@@ -419,7 +418,7 @@ class TestGlue(unittest.TestCase):
         self.create_image("simple/blue.png", BLUE)
         self.create_image("simple/yellow.png", YELLOW)
         code = self.call("glue simple output --algorithm=vertical")
-        self.assertEqual(code, 0)
+        assert code == 0
 
         self.assertExists("output/simple.png")
         self.assertExists("output/simple.css")
@@ -453,7 +452,7 @@ class TestGlue(unittest.TestCase):
         self.create_image("simple/blue.png", BLUE, (32, 32))
         self.create_image("simple/yellow.png", YELLOW, (16, 16))
         code = self.call("glue simple output --algorithm=vertical-right")
-        self.assertEqual(code, 0)
+        assert code == 0
 
         self.assertExists("output/simple.png")
         self.assertExists("output/simple.css")
@@ -486,7 +485,7 @@ class TestGlue(unittest.TestCase):
         self.create_image("simple/red.png", RED)
         self.create_image("simple/blue.png", BLUE)
         code = self.call("glue simple output --no-img --img=folder")
-        self.assertEqual(code, 0)
+        assert code == 0
 
         self.assertDoesNotExists("output/simple.png")
         self.assertExists("output/simple.css")
@@ -547,7 +546,7 @@ class TestGlue(unittest.TestCase):
         self.create_image("simple/red.png", RED)
         self.create_image("simple/blue.png", BLUE)
         code = self.call("glue simple output --css=styles")
-        self.assertEqual(code, 0)
+        assert code == 0
 
         self.assertExists("output/simple.png")
         self.assertExists("styles/simple.css")
@@ -572,13 +571,13 @@ class TestGlue(unittest.TestCase):
         self.create_image("simple/red.png", RED)
         self.create_image("simple/sub/red.png", RED)
         code = self.call("glue simple output --recursive")
-        self.assertEqual(code, 3)
+        assert code == 3
 
     def test_less(self):
         self.create_image("simple/red.png", RED)
         self.create_image("simple/blue.png", BLUE)
         code = self.call("glue simple output --less")
-        self.assertEqual(code, 0)
+        assert code == 0
 
         self.assertExists("output/simple.png")
         self.assertExists("output/simple.less")
@@ -593,7 +592,7 @@ class TestGlue(unittest.TestCase):
         self.create_image("simple/red.png", RED)
         self.create_image("simple/blue.png", BLUE)
         code = self.call("glue simple output --scss")
-        self.assertEqual(code, 0)
+        assert code == 0
 
         self.assertExists("output/simple.png")
         self.assertExists("output/simple.scss")
@@ -608,7 +607,7 @@ class TestGlue(unittest.TestCase):
         self.create_image("simple/red.png", RED)
         self.create_image("simple/blue.png", BLUE)
         code = self.call("glue simple output --namespace=style")
-        self.assertEqual(code, 0)
+        assert code == 0
 
         self.assertExists("output/simple.png")
         self.assertExists("output/simple.css")
@@ -633,7 +632,7 @@ class TestGlue(unittest.TestCase):
         self.create_image("simple/red.png", RED)
         self.create_image("simple/blue.png", BLUE)
         code = self.call("glue simple output --namespace=")
-        self.assertEqual(code, 0)
+        assert code == 0
 
         self.assertExists("output/simple.png")
         self.assertExists("output/simple.css")
@@ -658,7 +657,7 @@ class TestGlue(unittest.TestCase):
         self.create_image("simple/red.png", RED)
         self.create_image("simple/blue.png", BLUE)
         code = self.call("glue simple output --sprite-namespace=custom")
-        self.assertEqual(code, 0)
+        assert code == 0
 
         self.assertExists("output/simple.png")
         self.assertExists("output/simple.css")
@@ -683,7 +682,7 @@ class TestGlue(unittest.TestCase):
         self.create_image("simple/red.png", RED)
         self.create_image("simple/blue.png", BLUE)
         code = self.call("glue simple output --sprite-namespace=custom-{sprite_name}")
-        self.assertEqual(code, 0)
+        assert code == 0
 
         self.assertExists("output/simple.png")
         self.assertExists("output/simple.css")
@@ -708,7 +707,7 @@ class TestGlue(unittest.TestCase):
         self.create_image("simple/red.png", RED)
         self.create_image("simple/blue.png", BLUE)
         code = self.call("glue simple output --sprite-namespace=")
-        self.assertEqual(code, 0)
+        assert code == 0
 
         self.assertExists("output/simple.png")
         self.assertExists("output/simple.css")
@@ -733,7 +732,7 @@ class TestGlue(unittest.TestCase):
         self.create_image("simple/red.png", RED)
         self.create_image("simple/blue.png", BLUE)
         code = self.call("glue simple output --sprite-namespace= --namespace=")
-        self.assertEqual(code, 0)
+        assert code == 0
 
         self.assertExists("output/simple.png")
         self.assertExists("output/simple.css")
@@ -758,7 +757,7 @@ class TestGlue(unittest.TestCase):
         self.create_image("simple/red.png", RED)
         self.create_image("simple/blue.png", BLUE)
         code = self.call("glue simple output --url=http://static.domain.com/")
-        self.assertEqual(code, 0)
+        assert code == 0
 
         self.assertExists("output/simple.png")
         self.assertExists("output/simple.css")
@@ -780,7 +779,7 @@ class TestGlue(unittest.TestCase):
                         'height': '64px'})
 
         code = self.call("glue simple output --url=/static/")
-        self.assertEqual(code, 0)
+        assert code == 0
 
         self.assertExists("output/simple.png")
         self.assertExists("output/simple.css")
@@ -802,7 +801,7 @@ class TestGlue(unittest.TestCase):
                         'height': '64px'})
 
         code = self.call("glue simple --url=/custom/ --css=a/b/c --img=d/e/f")
-        self.assertEqual(code, 0)
+        assert code == 0
 
         self.assertExists("d/e/f/simple.png")
         self.assertExists("a/b/c/simple.css")
@@ -829,7 +828,7 @@ class TestGlue(unittest.TestCase):
         self.create_image("simple/red.png", RED)
         self.create_image("simple/blue.png", BLUE)
         code = self.call("glue simple output --cachebuster")
-        self.assertEqual(code, 0)
+        assert code == 0
 
         self.assertExists("output/simple.png")
         self.assertExists("output/simple.css")
@@ -856,7 +855,7 @@ class TestGlue(unittest.TestCase):
         self.create_image("simple/red.png", RED)
         self.create_image("simple/blue.png", BLUE)
         code = self.call("glue simple output --cachebuster-filename")
-        self.assertEqual(code, 0)
+        assert code == 0
 
         self.assertExists("output/simple_12345.png")
         self.assertExists("output/simple_12345.css")
@@ -883,7 +882,7 @@ class TestGlue(unittest.TestCase):
         self.create_image("simple/red.png", RED)
         self.create_image("simple/blue.png", BLUE)
         code = self.call("glue simple output --cachebuster-filename-only-sprites")
-        self.assertEqual(code, 0)
+        assert code == 0
 
         self.assertExists("output/simple_12345.png")
         self.assertExists("output/simple.css")
@@ -908,7 +907,7 @@ class TestGlue(unittest.TestCase):
         self.create_image("simple/red.png", RED)
         self.create_image("simple/blue.png", BLUE)
         code = self.call("glue simple output --separator=-")
-        self.assertEqual(code, 0)
+        assert code == 0
 
         self.assertExists("output/simple.png")
         self.assertExists("output/simple.css")
@@ -933,7 +932,7 @@ class TestGlue(unittest.TestCase):
         self.create_image("simple/red.png", RED)
         self.create_image("simple/blue.png", BLUE)
         code = self.call("glue simple output --separator=camelcase")
-        self.assertEqual(code, 0)
+        assert code == 0
 
         self.assertExists("output/simple.png")
         self.assertExists("output/simple.css")
@@ -963,7 +962,7 @@ class TestGlue(unittest.TestCase):
             f.write("custom css template for {{ hash }}")
 
         code = self.call("glue simple output --css-template=template.jinja")
-        self.assertEqual(code, 0)
+        assert code == 0
 
         self.assertExists("output/simple.png")
         self.assertExists("output/simple.css")
@@ -972,7 +971,7 @@ class TestGlue(unittest.TestCase):
 
         with open('output/simple.css', encoding='utf-8-sig') as f:
             content = f.read()
-            self.assertEqual(content, f"custom css template for {12345}")
+            assert content == f"custom css template for {12345}"
 
     @patch('glue.core.Sprite.hash')
     def test_less_template(self, mocked_hash):
@@ -983,7 +982,7 @@ class TestGlue(unittest.TestCase):
             f.write("custom less template for {{ hash }}")
 
         code = self.call("glue simple output --less --less-template=template.jinja")
-        self.assertEqual(code, 0)
+        assert code == 0
 
         self.assertExists("output/simple.png")
         self.assertExists("output/simple.less")
@@ -992,7 +991,7 @@ class TestGlue(unittest.TestCase):
 
         with open('output/simple.less', encoding='utf-8-sig') as f:
             content = f.read()
-            self.assertEqual(content, f"custom less template for {12345}")
+            assert content == f"custom less template for {12345}"
 
     @patch('glue.core.Sprite.hash')
     def test_scss_template(self, mocked_hash):
@@ -1003,7 +1002,7 @@ class TestGlue(unittest.TestCase):
             f.write("custom scss template for {{ hash }}")
 
         code = self.call("glue simple output --scss --scss-template=template.jinja")
-        self.assertEqual(code, 0)
+        assert code == 0
 
         self.assertExists("output/simple.png")
         self.assertExists("output/simple.scss")
@@ -1012,13 +1011,13 @@ class TestGlue(unittest.TestCase):
 
         with open('output/simple.scss', encoding='utf-8-sig') as f:
             content = f.read()
-            self.assertEqual(content, f"custom scss template for {12345}")
+            assert content == f"custom scss template for {12345}"
 
     def test_html(self):
         self.create_image("simple/red.png", RED)
         self.create_image("simple/blue.png", BLUE)
         code = self.call("glue simple output --html")
-        self.assertEqual(code, 0)
+        assert code == 0
 
         self.assertExists("output/simple.png")
         self.assertExists("output/simple.css")
@@ -1028,7 +1027,7 @@ class TestGlue(unittest.TestCase):
         self.create_image("simple/red.png", RED)
         self.create_image("simple/blue.png", BLUE)
         code = self.call("glue simple output --json")
-        self.assertEqual(code, 0)
+        assert code == 0
 
         self.assertExists("output/simple.png")
         self.assertExists("output/simple.json")
@@ -1038,13 +1037,13 @@ class TestGlue(unittest.TestCase):
 
         # Rebuild in order to test the ``needs_rebuild`` method
         code = self.call("glue simple output --json")
-        self.assertEqual(code, 0)
+        assert code == 0
 
     def test_json_ratios(self):
         self.create_image("simple/red.png", RED)
         self.create_image("simple/blue.png", BLUE)
         code = self.call("glue simple output --json --retina")
-        self.assertEqual(code, 0)
+        assert code == 0
 
         self.assertExists("output/simple.png")
         self.assertExists("output/simple.json")
@@ -1063,7 +1062,7 @@ class TestGlue(unittest.TestCase):
         self.create_image("simple/red.png", RED)
         self.create_image("simple/blue.png", BLUE)
         code = self.call("glue simple output --json --json-format=hash")
-        self.assertEqual(code, 0)
+        assert code == 0
 
         self.assertExists("output/simple.png")
         self.assertExists("output/simple.json")
@@ -1075,7 +1074,7 @@ class TestGlue(unittest.TestCase):
         self.create_image("simple/red.png", RED)
         self.create_image("simple/blue.png", BLUE)
         code = self.call("glue simple output --img=images")
-        self.assertEqual(code, 0)
+        assert code == 0
 
         self.assertExists("images/simple.png")
         self.assertExists("output/simple.css")
@@ -1100,7 +1099,7 @@ class TestGlue(unittest.TestCase):
         self.create_image("simple/red.png", RED)
         self.create_image("simple/blue.png", BLUE)
         code = self.call("glue simple output --no-img")
-        self.assertEqual(code, 0)
+        assert code == 0
 
         self.assertDoesNotExists("output/simple.png")
         self.assertExists("output/simple.css")
@@ -1123,7 +1122,7 @@ class TestGlue(unittest.TestCase):
         self.create_image("simple/red.png", RED, margin=4)
         self.create_image("simple/blue.png", BLUE, margin=4)
         code = self.call("glue simple output --crop")
-        self.assertEqual(code, 0)
+        assert code == 0
 
         self.assertExists("output/simple.png")
         self.assertExists("output/simple.css")
@@ -1149,7 +1148,7 @@ class TestGlue(unittest.TestCase):
         self.create_image("simple/red.png", margin=4, margin_color=WHITE_TRANSPARENT)
         self.create_image("simple/blue.png", BLUE, margin=4, margin_color=WHITE_TRANSPARENT)
         code = self.call("glue simple output --crop")
-        self.assertEqual(code, 0)
+        assert code == 0
 
         self.assertExists("output/simple.png")
         self.assertExists("output/simple.css")
@@ -1176,7 +1175,7 @@ class TestGlue(unittest.TestCase):
 
         # Simple padding
         code = self.call("glue simple output --padding=4")
-        self.assertEqual(code, 0)
+        assert code == 0
 
         self.assertExists("output/simple.png")
         self.assertExists("output/simple.css")
@@ -1199,7 +1198,7 @@ class TestGlue(unittest.TestCase):
 
         # Double padding
         code = self.call("glue simple output --padding=2,4")
-        self.assertEqual(code, 0)
+        assert code == 0
 
         self.assertExists("output/simple.png")
         self.assertExists("output/simple.css")
@@ -1223,7 +1222,7 @@ class TestGlue(unittest.TestCase):
 
         # Triple padding
         code = self.call("glue simple output --padding=2,4,6")
-        self.assertEqual(code, 0)
+        assert code == 0
 
         self.assertExists("output/simple.png")
         self.assertExists("output/simple.css")
@@ -1247,7 +1246,7 @@ class TestGlue(unittest.TestCase):
 
         # Full padding
         code = self.call("glue simple output --padding=2,4,6,8")
-        self.assertEqual(code, 0)
+        assert code == 0
 
         self.assertExists("output/simple.png")
         self.assertExists("output/simple.css")
@@ -1275,7 +1274,7 @@ class TestGlue(unittest.TestCase):
 
         # Simple margin
         code = self.call("glue simple output --margin=4")
-        self.assertEqual(code, 0)
+        assert code == 0
 
         self.assertExists("output/simple.png")
         self.assertExists("output/simple.css")
@@ -1298,7 +1297,7 @@ class TestGlue(unittest.TestCase):
 
         # Double margin
         code = self.call("glue simple output --margin=2,4")
-        self.assertEqual(code, 0)
+        assert code == 0
 
         self.assertExists("output/simple.png")
         self.assertExists("output/simple.css")
@@ -1322,7 +1321,7 @@ class TestGlue(unittest.TestCase):
 
         # Triple margin
         code = self.call("glue simple output --margin=2,4,6")
-        self.assertEqual(code, 0)
+        assert code == 0
 
         self.assertExists("output/simple.png")
         self.assertExists("output/simple.css")
@@ -1346,7 +1345,7 @@ class TestGlue(unittest.TestCase):
 
         # Full margin
         code = self.call("glue simple output --margin=2,4,6,8")
-        self.assertEqual(code, 0)
+        assert code == 0
 
         self.assertExists("output/simple.png")
         self.assertExists("output/simple.css")
@@ -1372,17 +1371,17 @@ class TestGlue(unittest.TestCase):
         self.create_image("simple/red.png", RED)
         self.create_image("simple/blue.png", BLUE)
         code = self.call("glue simple output --png8")
-        self.assertEqual(code, 0)
+        assert code == 0
 
         self.assertExists("output/simple.png")
         self.assertExists("output/simple.css")
 
         image = PILImage.open("output/simple.png")
-        self.assertEqual(image.mode, 'P')
-        self.assertEqual(image.getpixel((0, 0)), 0)
-        self.assertEqual(image.getpixel((63, 63)), 0)
-        self.assertEqual(image.getpixel((64, 0)), 1)
-        self.assertEqual(image.getpixel((127, 63)), 1)
+        assert image.mode == 'P'
+        assert image.getpixel((0, 0)) == 0
+        assert image.getpixel((63, 63)) == 0
+        assert image.getpixel((64, 0)) == 1
+        assert image.getpixel((127, 63)) == 1
 
         self.assertCSS("output/simple.css", '.sprite-simple-red',
                        {'background-image': "url(simple.png)",
@@ -1403,7 +1402,7 @@ class TestGlue(unittest.TestCase):
         self.create_image("simple/red.png", RED)
         self.create_image("simple/blue.png", BLUE)
         code = self.call("glue simple output --retina")
-        self.assertEqual(code, 0)
+        assert code == 0
 
         self.assertExists("output/simple.png")
         self.assertExists("output/simple@2x.png")
@@ -1452,7 +1451,7 @@ class TestGlue(unittest.TestCase):
         self.create_image("simple/red.png", RED)
         self.create_image("simple/blue.png", BLUE)
         code = self.call("glue simple output --retina --url=http://static.domain.com/")
-        self.assertEqual(code, 0)
+        assert code == 0
 
         self.assertExists("output/simple.png")
         self.assertExists("output/simple@2x.png")
@@ -1504,7 +1503,7 @@ class TestGlue(unittest.TestCase):
         self.create_image("simple/red.png", RED)
         self.create_image("simple/blue.png", BLUE)
         code = self.call("glue simple output --retina --cachebuster")
-        self.assertEqual(code, 0)
+        assert code == 0
 
         self.assertExists("output/simple.png")
         self.assertExists("output/simple@2x.png")
@@ -1553,7 +1552,7 @@ class TestGlue(unittest.TestCase):
         self.create_image("simple/red.png", RED)
         self.create_image("simple/blue.png", BLUE)
         code = self.call("glue simple output --cocos2d")
-        self.assertEqual(code, 0)
+        assert code == 0
 
         self.assertExists("output/simple.png")
         self.assertExists("output/simple.plist")
@@ -1562,25 +1561,25 @@ class TestGlue(unittest.TestCase):
 
         with open("output/simple.plist", 'rb') as f:
             meta = plistlib.load(f)
-        self.assertEqual(set(meta.keys()), {'frames', 'metadata'})
-        self.assertEqual(set(meta['frames'].keys()), {'blue.png', 'red.png'})
+        assert set(meta.keys()) == {'frames', 'metadata'}
+        assert set(meta['frames'].keys()) == {'blue.png', 'red.png'}
 
         code = self.call("glue simple output --cocos2d")
-        self.assertEqual(code, 0)
+        assert code == 0
 
     @patch('glue.managers.simple.SimpleManager.process')
     def test_debug(self, mock_process):
         mock_process.side_effect = Exception("Error!")
         os.mkdir('simple')
         code, output = self.call("glue simple output", capture=True)
-        self.assertEqual(code, 1)
-        self.assertEqual(output, '')
+        assert code == 1
+        assert output == ''
 
     def test_custom_paths(self):
         self.create_image("simple/red.png", RED)
         self.create_image("simple/blue.png", BLUE)
         code = self.call("glue simple --css=output --img=output")
-        self.assertEqual(code, 0)
+        assert code == 0
 
         self.assertExists("output/simple.png")
         self.assertExists("output/simple.css")
@@ -1608,7 +1607,7 @@ class TestGlue(unittest.TestCase):
             f.write("[sprite]\nrecursive=true\n")
 
         code = self.call("glue simple output")
-        self.assertEqual(code, 0)
+        assert code == 0
 
         self.assertExists("output/simple.png")
         self.assertExists("output/simple.css")
@@ -1637,7 +1636,7 @@ class TestGlue(unittest.TestCase):
             f.write("[blue.png]\nmargin=4\n")
 
         code = self.call("glue simple output")
-        self.assertEqual(code, 0)
+        assert code == 0
 
         self.assertExists("output/simple.png")
         self.assertExists("output/simple.css")
@@ -1662,7 +1661,7 @@ class TestGlue(unittest.TestCase):
         self.create_image("simple/button.png", RED)
         self.create_image("simple/button__hover.png", BLUE)
         code = self.call("glue simple output")
-        self.assertEqual(code, 0)
+        assert code == 0
 
         self.assertExists("output/simple.png")
         self.assertExists("output/simple.css")
@@ -1687,7 +1686,7 @@ class TestGlue(unittest.TestCase):
         self.create_image("simple/button.png", RED)
         self.create_image("simple/button__hover__before.png", BLUE)
         code = self.call("glue simple output")
-        self.assertEqual(code, 0)
+        assert code == 0
 
         self.assertExists("output/simple.png")
         self.assertExists("output/simple.css")
@@ -1712,7 +1711,7 @@ class TestGlue(unittest.TestCase):
         self.create_image("simple/button.png", RED)
         self.create_image("simple/button_hover.png", BLUE)
         code = self.call("glue simple output --pseudo-class-separator=_")
-        self.assertEqual(code, 0)
+        assert code == 0
 
         self.assertExists("output/simple.png")
         self.assertExists("output/simple.css")
@@ -1737,7 +1736,7 @@ class TestGlue(unittest.TestCase):
         self.create_image("simple/red.png", RED)
         self.create_image("simple/blue.png", BLUE)
         code = self.call("glue simple output --no-css")
-        self.assertEqual(code, 0)
+        assert code == 0
 
         self.assertExists("output/simple.png")
         self.assertDoesNotExists("output/simple.css")
@@ -1746,7 +1745,7 @@ class TestGlue(unittest.TestCase):
         self.create_image("simple/red.png", RED)
         self.create_image("simple/blue.png", BLUE)
         code = self.call("glue simple output --no-css --css=folder")
-        self.assertEqual(code, 0)
+        assert code == 0
 
         self.assertExists("output/simple.png")
         self.assertDoesNotExists("output/folder/simple.css")
@@ -1756,7 +1755,7 @@ class TestGlue(unittest.TestCase):
         self.create_image("simple/red.png", RED)
         self.create_image("simple/red|.png", RED)
         code = self.call("glue simple output --no-css")
-        self.assertEqual(code, 0)
+        assert code == 0
 
         self.assertExists("output/simple.png")
         self.assertDoesNotExists("output/simple.css")
@@ -1765,7 +1764,7 @@ class TestGlue(unittest.TestCase):
         self.create_image("simple/red.png", RED)
         self.create_image("simple/blue.png", BLUE)
         code = self.call("glue simple output --caat")
-        self.assertEqual(code, 0)
+        assert code == 0
 
         self.assertExists("output/simple.png")
         self.assertExists("output/simple.json")
@@ -1777,7 +1776,7 @@ class TestGlue(unittest.TestCase):
         self.create_image("simple/red.png", RED)
         self.create_image("simple/blue.png", BLUE)
         code = self.call("glue simple output --caat --retina")
-        self.assertEqual(code, 0)
+        assert code == 0
 
         self.assertExists("output/simple.png")
         self.assertExists("output/simple.json")
