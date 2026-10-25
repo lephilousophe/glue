@@ -1,4 +1,4 @@
-class VerticalRightAlgorithm(object):
+class VerticalRightAlgorithm:
 
     def process(self, sprite):
         max_width = max([i.width for i in sprite.images])

@@ -129,7 +129,7 @@ class CssFormat(JinjaTextFormat):
             parser.error("You can't use --cachebuster, --cachebuster-filename or --cachebuster-filename-only-sprites at the same time.")
 
     def needs_rebuild(self):
-        hash_line = '/* glue: %s hash: %s */\n' % (__version__, self.sprite.hash)
+        hash_line = f'/* glue: {__version__} hash: {self.sprite.hash} */\n'
         try:
             with codecs.open(self.output_path(), 'r', 'utf-8') as existing_css:
                 first_line = existing_css.readline()
@@ -142,35 +142,35 @@ class CssFormat(JinjaTextFormat):
         class_names = [':'.join(self.generate_css_name(i.filename)) for i in self.sprite.images]
         if len(set(class_names)) != len(self.sprite.images):
             dup = [i for i in self.sprite.images if class_names.count(':'.join(self.generate_css_name(i.filename))) > 1]
-            duptext = '\n'.join(['\t{0} => .{1}'.format(os.path.relpath(d.path), ':'.join(self.generate_css_name(d.filename))) for d in dup])
-            raise ValidationError("Error: Some images will have the same class name:\n{0}".format(duptext))
+            duptext = '\n'.join(['\t{} => .{}'.format(os.path.relpath(d.path), ':'.join(self.generate_css_name(d.filename))) for d in dup])
+            raise ValidationError(f"Error: Some images will have the same class name:\n{duptext}")
         return True
 
     def output_filename(self, *args, **kwargs):
-        filename = super(CssFormat, self).output_filename(*args, **kwargs)
+        filename = super().output_filename(*args, **kwargs)
         if self.sprite.config['css_cachebuster_filename']:
-            return '{0}_{1}'.format(filename, self.sprite.hash)
+            return f'{filename}_{self.sprite.hash}'
         return filename
 
     def get_context(self, *args, **kwargs):
 
-        context = super(CssFormat, self).get_context(*args, **kwargs)
+        context = super().get_context(*args, **kwargs)
 
         # Generate css labels
         for image in context['images']:
             image['label'], image['pseudo'] = self.generate_css_name(image['filename'])
 
         if self.sprite.config['css_url']:
-            context['sprite_path'] = '{0}{1}'.format(self.sprite.config['css_url'], context['sprite_filename'])
+            context['sprite_path'] = '{}{}'.format(self.sprite.config['css_url'], context['sprite_filename'])
 
             for r, ratio in context['ratios'].items():
-                ratio['sprite_path'] = '{0}{1}'.format(self.sprite.config['css_url'], ratio['sprite_filename'])
+                ratio['sprite_path'] = '{}{}'.format(self.sprite.config['css_url'], ratio['sprite_filename'])
 
         # Add cachebuster if required
         if self.sprite.config['css_cachebuster']:
 
             def apply_cachebuster(path):
-                return "%s?%s" % (path, self.sprite.hash)
+                return f"{path}?{self.sprite.hash}"
 
             context['sprite_path'] = apply_cachebuster(context['sprite_path'])
 
@@ -212,7 +212,7 @@ class CssFormat(JinjaTextFormat):
             # If present add this pseudo class as pseudo an remove it from the label
             if pseudo_classes:
                 for p in pseudo_classes:
-                    label = label.replace('{0}{1}'.format(css_pseudo_class_separator, p), "")
-                pseudo = ''.join([':{0}'.format(x) for x in pseudo_classes])
+                    label = label.replace(f'{css_pseudo_class_separator}{p}', "")
+                pseudo = ''.join([f':{x}' for x in pseudo_classes])
 
         return label, pseudo

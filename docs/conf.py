@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-#
 # glue documentation build configuration file, created by
 # sphinx-quickstart on Sun Jan  1 19:36:52 2012.
 #
@@ -40,8 +38,8 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'glue'
-copyright = u'2013, Jorge Bastida'
+project = 'glue'
+copyright = '2013, Jorge Bastida'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -188,8 +186,8 @@ htmlhelp_basename = 'gluedoc'
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title, author, documentclass [howto/manual]).
 latex_documents = [
-  ('index', 'glue.tex', u'glue Documentation',
-   u'Jorge Bastida', 'manual'),
+  ('index', 'glue.tex', 'glue Documentation',
+   'Jorge Bastida', 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
@@ -221,6 +219,6 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    ('index', 'glue', u'glue Documentation',
-     [u'Jorge Bastida'], 1)
+    ('index', 'glue', 'glue Documentation',
+     ['Jorge Bastida'], 1)
 ]

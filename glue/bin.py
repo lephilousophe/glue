@@ -131,7 +131,7 @@ def main(argv=None):
 
 
     # Get the list of enabled formats
-    options.enabled_formats = [f for f in formats if getattr(options, '{0}_dir'.format(f), False)]
+    options.enabled_formats = [f for f in formats if getattr(options, f'{f}_dir', False)]
 
     # If there is only one enabled format (img) or if there are two (img, html)
     # this means glue is been executed without any specific main format.
@@ -148,8 +148,8 @@ def main(argv=None):
     # Fail if any of the deprecated arguments is used
     for argument in deprecated_arguments.keys():
         if getattr(options, argument, None):
-            parser.error(("{0} argument is deprectated "
-                          "since v0.3").format(deprecated_arguments[argument]))
+            parser.error(f"{deprecated_arguments[argument]} argument is deprectated "
+                          "since v0.3")
 
     extra = 0
     # Get the source from the source option or the first positional argument
@@ -163,12 +163,12 @@ def main(argv=None):
 
     # Check if source is available
     if options.source is None:
-        parser.error(("You must provide the folder containing the sprites "
-                      "using the first positional argument or --source."))
+        parser.error("You must provide the folder containing the sprites "
+                      "using the first positional argument or --source.")
 
     # Make absolute both source and output if present
     if not os.path.isdir(options.source):
-        parser.error("Directory not found: '{0}'".format(options.source))
+        parser.error(f"Directory not found: '{options.source}'")
 
     options.source = os.path.abspath(options.source)
     if options.output:
@@ -178,30 +178,30 @@ def main(argv=None):
     # information can be tricky as you can choose different outputs for each
     # of the available formats. If it is present make it absolute.
     if not options.source:
-        parser.error(("Source required. Please specify a source using "
-                      "--source or the first positional argument."))
+        parser.error("Source required. Please specify a source using "
+                      "--source or the first positional argument.")
 
     if options.output:
         for format in options.enabled_formats:
-            format_option = '{0}_dir'.format(format)
+            format_option = f'{format}_dir'
             path = getattr(options, format_option)
 
             if isinstance(path, bool) and path:
                 setattr(options, format_option, options.output)
     else:
         if options.generate_image and not options.img_dir:
-            parser.error(("Output required. Please specify an output for "
+            parser.error("Output required. Please specify an output for "
                           "the sprite image using --output, the second "
-                          "positional argument or --img=<DIR>"))
+                          "positional argument or --img=<DIR>")
 
         for format in options.enabled_formats:
-            format_option = '{0}_dir'.format(format)
+            format_option = f'{format}_dir'
             path = getattr(options, format_option)
 
             if isinstance(path, bool) or not path:
-                parser.error(("{0} output required. Please specify an output "
-                              "for {0} using --output, the second "
-                              "positional argument or --{0}=<DIR>".format(format)))
+                parser.error(f"{format} output required. Please specify an output "
+                              f"for {format} using --output, the second "
+                              f"positional argument or --{format}=<DIR>")
             else:
                 setattr(options, format_option, os.path.abspath(path))
 
@@ -237,16 +237,16 @@ def main(argv=None):
         sys.stderr.write(e.args[0])
         return e.error_code
     except exceptions.SourceImagesNotFoundError as e:
-        sys.stderr.write("Error: No images found in %s.\n" % e.args[0])
+        sys.stderr.write(f"Error: No images found in {e.args[0]}.\n")
         return e.error_code
     except exceptions.NoSpritesFoldersFoundError as e:
-        sys.stderr.write("Error: No sprites folders found in %s.\n" % e.args[0])
+        sys.stderr.write(f"Error: No sprites folders found in {e.args[0]}.\n")
         return e.error_code
     except exceptions.PILUnavailableError as e:
-        sys.stderr.write(("Error: PIL {0} decoder is unavailable"
+        sys.stderr.write(f"Error: PIL {e.args[0]} decoder is unavailable"
                           "Please read the documentation and "
                           "install it before spriting this kind of "
-                          "images.\n").format(e.args[0]))
+                          "images.\n")
         return e.error_code
     except Exception:
         import platform
@@ -257,12 +257,12 @@ def main(argv=None):
         sys.stderr.write("https://github.com/jorgebastida/glue/issues/new\n")
         sys.stderr.write("-" * 80)
         sys.stderr.write("\n")
-        sys.stderr.write("Version: {0}\n".format(__version__))
-        sys.stderr.write("Python: {0}\n".format(sys.version))
-        sys.stderr.write("PIL version: {0}\n".format(PImage.VERSION))
-        sys.stderr.write("Platform: {0}\n".format(platform.platform()))
-        sys.stderr.write("Config: {0}\n".format(vars(options)))
-        sys.stderr.write("Args: {0}\n\n".format(sys.argv))
+        sys.stderr.write(f"Version: {__version__}\n")
+        sys.stderr.write(f"Python: {sys.version}\n")
+        sys.stderr.write(f"PIL version: {PImage.VERSION}\n")
+        sys.stderr.write(f"Platform: {platform.platform()}\n")
+        sys.stderr.write(f"Config: {vars(options)}\n")
+        sys.stderr.write(f"Args: {sys.argv}\n\n")
         sys.stderr.write(traceback.format_exc())
         sys.stderr.write("=" * 80)
         sys.stderr.write("\n")

@@ -1,7 +1,7 @@
 import copy
 
 
-class SquareAlgorithmNode(object):
+class SquareAlgorithmNode:
 
     def __init__(self, x=0, y=0, width=0, height=0, used=False,
                  down=None, right=None):
@@ -120,7 +120,7 @@ class SquareAlgorithmNode(object):
         return node
 
 
-class SquareAlgorithm(object):
+class SquareAlgorithm:
 
     def process(self, sprite):
 

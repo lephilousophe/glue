@@ -21,7 +21,7 @@ class Cocos2dFormat(BasePlistFormat):
                            help="Generate Cocos2d files and optionally where")
 
     def get_context(self, ratio, *args, **kwargs):
-        context = super(Cocos2dFormat, self).get_context(ratio, *args, **kwargs)
+        context = super().get_context(ratio, *args, **kwargs)
         ratio_context = context['ratios'][ratio]
 
         data = {'frames': {},

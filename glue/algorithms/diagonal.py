@@ -1,4 +1,4 @@
-class DiagonalAlgorithm(object):
+class DiagonalAlgorithm:
 
     def process(self, sprite):
         x = y = 0

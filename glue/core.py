@@ -14,7 +14,7 @@ from glue.formats import ImageFormat
 from glue.exceptions import SourceImagesNotFoundError, PILUnavailableError
 
 
-class ConfigurableFromFile(object):
+class ConfigurableFromFile:
 
     def _get_config_from_file(self, filename, section):
         """Return, as a dictionary, all the available configuration inside the
@@ -48,7 +48,7 @@ class Image(ConfigurableFromFile):
         with open(self.path, "rb") as img:
             self._image_data = img.read()
 
-        print("\t{0} added to sprite".format(self.filename))
+        print(f"\t{self.filename} added to sprite")
 
     @cached_property
     def image(self):
@@ -70,7 +70,7 @@ class Image(ConfigurableFromFile):
                 img.paste(source_image, (0, 0), mask=mask)
             else:
                 img.paste(source_image, (0, 0))
-        except IOError as e:
+        except OSError as e:
             raise PILUnavailableError(e.args[0].split()[1])
         finally:
             imageio.close()
@@ -192,11 +192,11 @@ class Sprite(ConfigurableFromFile):
 
         img_format = ImageFormat(sprite=self)
         for ratio in ratios:
-            ratio_output_key = 'ratio_{0}_output'.format(ratio)
+            ratio_output_key = f'ratio_{ratio}_output'
             if ratio_output_key not in self.config:
                 self.config[ratio_output_key] = img_format.output_path(ratio)
 
-        print("Processing '{0}':".format(self.name))
+        print(f"Processing '{self.name}':")
 
         # Generate sprite map
         self.process()
@@ -242,7 +242,7 @@ class Sprite(ConfigurableFromFile):
         return round_up(width), round_up(height)
 
     def sprite_path(self, ratio=1.0):
-        return self.config['ratio_{0}_output'.format(ratio)]
+        return self.config[f'ratio_{ratio}_output']
 
     def _locate_images(self):
         """Return all valid images within a folder.
@@ -257,7 +257,7 @@ class Sprite(ConfigurableFromFile):
         algorithm. The default is 'maxside'.
         """
         extensions = '|'.join(self.valid_extensions)
-        extension_re = re.compile(r'.+\.(%s)$' % extensions, re.IGNORECASE)
+        extension_re = re.compile(rf'.+\.({extensions})$', re.IGNORECASE)
         files = sorted(os.listdir(self.path))
 
         images = []

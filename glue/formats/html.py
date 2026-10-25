@@ -49,8 +49,8 @@ class HtmlFormat(CssFormat):
             parser.error("You can't use --html without --css.")
 
     def get_context(self, *args, **kwargs):
-        context = super(HtmlFormat, self).get_context(*args, **kwargs)
-        context['css_path'] = os.path.relpath(os.path.join(self.sprite.config['css_dir'], '{0}.css'.format(self.sprite.name)), self.output_dir())
+        context = super().get_context(*args, **kwargs)
+        context['css_path'] = os.path.relpath(os.path.join(self.sprite.config['css_dir'], f'{self.sprite.name}.css'), self.output_dir())
         return context
 
     def needs_rebuild(self):

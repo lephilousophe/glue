@@ -1,4 +1,4 @@
-class VerticalAlgorithm(object):
+class VerticalAlgorithm:
 
     def process(self, sprite):
         y = 0

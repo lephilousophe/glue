@@ -12,7 +12,7 @@ class ProjectManager(BaseManager, ConfigurableFromFile):
        the ``--project`` argument."""
 
     def __init__(self, *args, **kwargs):
-        super(ProjectManager, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.config_path = self.config['source']
         self.config.update(self._get_config_from_file('sprite.conf', 'sprite'))
 

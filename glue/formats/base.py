@@ -11,7 +11,7 @@ from glue.helpers import round_up, nearest_fration
 from glue import __version__
 
 
-class BaseFormat(object):
+class BaseFormat:
 
     extension = None
     build_per_ratio = False
@@ -20,20 +20,20 @@ class BaseFormat(object):
         self.sprite = sprite
 
     def output_dir(self, *args, **kwargs):
-        return self.sprite.config['{0}_dir'.format(self.format_label)]
+        return self.sprite.config[f'{self.format_label}_dir']
 
     def output_filename(self, ratio=None, *args, **kwargs):
         if self.build_per_ratio:
             if ratio is None:
-                raise AttributeError("Format {0} output_filename requires a ratio.".format(self.__class__))
-            ratio_suffix = '@%.1fx' % ratio if int(ratio) != ratio else '@%ix' % ratio
+                raise AttributeError(f"Format {self.__class__} output_filename requires a ratio.")
+            ratio_suffix = f'@{ratio:.1f}x' if int(ratio) != ratio else f'@{int(ratio)}x'
             if ratio_suffix == '@1x':
                 ratio_suffix = ''
-            return '{0}{1}'.format(self.sprite.name, ratio_suffix)
+            return f'{self.sprite.name}{ratio_suffix}'
         return self.sprite.name
 
     def output_path(self, *args, **kwargs):
-        return os.path.join(self.output_dir(*args, **kwargs), '{0}.{1}'.format(self.output_filename(*args, **kwargs), self.extension))
+        return os.path.join(self.output_dir(*args, **kwargs), f'{self.output_filename(*args, **kwargs)}.{self.extension}')
 
     def build(self):
         if self.build_per_ratio:
@@ -191,7 +191,7 @@ class JinjaTextFormat(BaseTextFormat):
     def render(self, *args, **kwargs):
         context = self.get_context(*args, **kwargs)
         template = self.template
-        custom_template_config = '{0}_template'.format(self.format_label)
+        custom_template_config = f'{self.format_label}_template'
         if self.sprite.config.get(custom_template_config):
             with open(self.sprite.config[custom_template_config]) as f:
                 template = f.read()

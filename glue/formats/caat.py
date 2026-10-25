@@ -21,7 +21,7 @@ class CAATFormat(BaseJSONFormat):
                            help="Generate CAAT files and optionally where")
 
     def get_context(self, *args, **kwargs):
-        context = super(CAATFormat, self).get_context(*args, **kwargs)
+        context = super().get_context(*args, **kwargs)
 
         data = dict(sprites={}, meta={'version': context['version'],
                                       'hash': context['hash'],

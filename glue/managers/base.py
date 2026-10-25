@@ -2,7 +2,7 @@ from glue.core import Sprite
 from glue.formats import formats
 
 
-class BaseManager(object):
+class BaseManager:
 
     def __init__(self, *args, **kwargs):
         self.config = kwargs
@@ -41,7 +41,7 @@ class BaseManager(object):
                 format = format_cls(sprite=sprite)
                 format.validate()
                 if format.needs_rebuild() or sprite.config['force']:
-                    print("Format '{0}' for sprite '{1}' needs rebuild...".format(format_name, sprite.name))
+                    print(f"Format '{format_name}' for sprite '{sprite.name}' needs rebuild...")
                     format.build()
                 else:
-                    print("Format '{0}'' for sprite '{1}' already exists...".format(format_name, sprite.name))
+                    print(f"Format '{format_name}'' for sprite '{sprite.name}' already exists...")

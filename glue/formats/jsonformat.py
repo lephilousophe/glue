@@ -35,7 +35,7 @@ class JSONFormat(BaseJSONFormat):
                            help=("JSON structure format (array, hash)"))
 
     def get_context(self, *args, **kwargs):
-        context = super(JSONFormat, self).get_context(*args, **kwargs)
+        context = super().get_context(*args, **kwargs)
 
         frames = OrderedDict([[i['filename'], {'filename': i['filename'],
                                         'frame': {'x': i['x'],

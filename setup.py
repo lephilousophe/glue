@@ -1,3 +1,5 @@
+
+
 import sys
 
 from setuptools import setup, find_packages
@@ -10,17 +12,6 @@ install_requires=[
 tests_require=[
     'cssutils>=0.9.10,<1.0',
 ]
-
-# as of Python >= 2.7 argparse module is maintained within Python.
-if sys.version_info < (2, 7):
-    install_requires.append('argparse>=1.1')
-    install_requires.append('ordereddict>=1.1')
-
-
-# as of Python >= 3.3 unittest.mock module is maintained within Python.
-if sys.version_info < (3, 3):
-    tests_require.append('mock>=1.0')
-
 
 setup(
     name='glue',
@@ -38,11 +29,11 @@ setup(
     keywords = "glue sprites css cocos2d",
     packages = find_packages(),
     platforms='any',
+    python_requires='>=3.7',
     install_requires=install_requires,
     tests_require=tests_require,
     test_suite='tests',
     classifiers=[
-        'Programming Language :: Python :: 2',
         'Programming Language :: Python :: 3',
         'Development Status :: 4 - Beta',
         'Environment :: Web Environment',

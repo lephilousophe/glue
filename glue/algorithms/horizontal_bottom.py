@@ -1,4 +1,4 @@
-class HorizontalBottomAlgorithm(object):
+class HorizontalBottomAlgorithm:
 
     def process(self, sprite):
         max_height = max([i.height for i in sprite.images])

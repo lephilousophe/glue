@@ -5,7 +5,7 @@ import signal
 import hashlib
 
 
-class WatchManager(object):
+class WatchManager:
 
     def __init__(self, manager_cls, options):
         self.manager_cls = manager_cls

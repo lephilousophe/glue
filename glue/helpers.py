@@ -24,7 +24,7 @@ def nearest_fration(value):
         return '%i/100' % int(float(value) * 100)
 
 
-class _Missing(object):
+class _Missing:
     """ Missing object necessary for cached_property"""
     def __repr__(self):
         return 'no value'
@@ -35,7 +35,7 @@ class _Missing(object):
 _missing = _Missing()
 
 
-class cached_property(object):
+class cached_property:
     """
     Decorator inspired/copied from mitsuhiko/werkzeug.
 

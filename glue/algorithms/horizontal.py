@@ -1,4 +1,4 @@
-class HorizontalAlgorithm(object):
+class HorizontalAlgorithm:
 
     def process(self, sprite):
         x = 0

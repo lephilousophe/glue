@@ -69,9 +69,9 @@ class ImageFormat(BaseFormat):
                            help="Shortcut for --ratios=2,1")
 
     def output_filename(self, *args, **kwargs):
-        filename = super(ImageFormat, self).output_filename(*args, **kwargs)
+        filename = super().output_filename(*args, **kwargs)
         if self.sprite.config['css_cachebuster_filename'] or self.sprite.config['css_cachebuster_only_sprites']:
-            return '{0}_{1}'.format(filename, self.sprite.hash)
+            return f'{filename}_{self.sprite.hash}'
         return filename
 
     def needs_rebuild(self):
@@ -79,7 +79,7 @@ class ImageFormat(BaseFormat):
             image_path = self.output_path(ratio)
             try:
                 existing = PILImage.open(image_path)
-                assert existing.info['Software'] == 'glue-%s' % __version__
+                assert existing.info['Software'] == f'glue-{__version__}'
                 assert existing.info['Comment'] == self.sprite.hash
                 continue
             except Exception:
@@ -99,7 +99,7 @@ class ImageFormat(BaseFormat):
                  round_up(image.y + (image.padding[0] + image.margin[0]) * self.sprite.max_ratio)))
 
         meta = PngImagePlugin.PngInfo()
-        meta.add_text('Software', 'glue-%s' % __version__)
+        meta.add_text('Software', f'glue-{__version__}')
         meta.add_text('Comment', self.sprite.hash)
 
         # Customize how the png is going to be saved
