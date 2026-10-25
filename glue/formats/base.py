@@ -1,7 +1,6 @@
 import os
 import sys
 import json
-import codecs
 import plistlib
 import textwrap
 
@@ -136,7 +135,7 @@ class BaseTextFormat(BaseFormat):
         if not os.path.exists(self.output_dir(*args, **kwargs)):
             os.makedirs(self.output_dir(*args, **kwargs))
 
-        with codecs.open(self.output_path(*args, **kwargs), 'w', 'utf-8') as f:
+        with open(self.output_path(*args, **kwargs), 'w', encoding='utf-8') as f:
             f.write(self.render(*args, **kwargs))
 
 
@@ -148,7 +147,7 @@ class BaseJSONFormat(BaseTextFormat):
         for ratio in self.sprite.config['ratios']:
             json_path = self.output_path(ratio)
             if os.path.exists(json_path):
-                with codecs.open(json_path, 'r', 'utf-8') as f:
+                with open(json_path, encoding='utf-8') as f:
                     try:
                         data = json.loads(f.read())
                         assert data[self.meta_key]['hash'] == self.sprite.hash
@@ -167,9 +166,7 @@ class BasePlistFormat(BaseTextFormat):
 
     def render(self, *args, **kwargs):
         context = self.get_context(*args, **kwargs)
-        if sys.version < '3':
-            return plistlib.writePlistToString(context)
-        return plistlib.writePlistToBytes(context).decode('unicode_escape')
+        return plistlib.dumps(context).decode('unicode_escape')
 
     def needs_rebuild(self):
         for ratio in self.sprite.config['ratios']:

@@ -33,8 +33,6 @@ class WatchManager:
                 hash_list.append(str(os.path.getmtime(os.path.join(root, f))))
         hash_list = ''.join(hash_list)
 
-        if sys.version < '3':
-            return hashlib.sha1(hash_list).hexdigest()
         return hashlib.sha1(hash_list.encode('utf-8')).hexdigest()
 
     def signal_handler(self, signal, frame):

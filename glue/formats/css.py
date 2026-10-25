@@ -1,6 +1,5 @@
 import re
 import os
-import codecs
 
 from glue import __version__
 from .base import JinjaTextFormat
@@ -131,7 +130,7 @@ class CssFormat(JinjaTextFormat):
     def needs_rebuild(self):
         hash_line = f'/* glue: {__version__} hash: {self.sprite.hash} */\n'
         try:
-            with codecs.open(self.output_path(), 'r', 'utf-8') as existing_css:
+            with open(self.output_path(), encoding='utf-8') as existing_css:
                 first_line = existing_css.readline()
                 assert first_line == hash_line
         except Exception:

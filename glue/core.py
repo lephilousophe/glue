@@ -54,10 +54,7 @@ class Image(ConfigurableFromFile):
     def image(self):
         """Return a Pil representation of this image """
 
-        if sys.version < '3':
-            imageio = io.StringIO(self._image_data)
-        else:
-            imageio = io.BytesIO(self._image_data)
+        imageio = io.BytesIO(self._image_data)
 
         try:
             source_image = PILImage.open(imageio)
@@ -224,8 +221,6 @@ class Sprite(ConfigurableFromFile):
             hash_list.append(key)
             hash_list.append(value)
 
-        if sys.version < '3':
-            return hashlib.sha1(''.join(map(str, hash_list))).hexdigest()[:10]
         return hashlib.sha1(''.join(map(str, hash_list)).encode('utf-8')).hexdigest()[:10]
 
     @cached_property

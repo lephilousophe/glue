@@ -1,6 +1,7 @@
 import os
 import sys
 import contextlib
+from fractions import Fraction
 from io import StringIO
 
 
@@ -13,15 +14,11 @@ def round_up(value):
 def nearest_fration(value):
     """
     Return the nearest fraction.
-    If fraction.Fraction is not available, return a fraction.
 
     Note: used for Opera CSS pixel-ratio media queries.
     """
-    try:
-        from fraction import Fraction
-        return str(Fraction(value))
-    except ImportError:
-        return '%i/100' % int(float(value) * 100)
+    f = Fraction(value)
+    return f'{f.numerator}/{f.denominator}'
 
 
 class _Missing:

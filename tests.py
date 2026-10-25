@@ -1,7 +1,6 @@
 import os
 import sys
 import json
-import codecs
 import shutil
 import unittest
 import logging
@@ -16,10 +15,7 @@ import plistlib
 from PIL import Image as PILImage
 import css_parser
 
-try:
-    from mock import patch, Mock
-except ImportError:
-    from unittest.mock import patch, Mock
+from unittest.mock import patch, Mock
 
 from glue.bin import main
 from glue.core import Image
@@ -981,7 +977,7 @@ class TestGlue(unittest.TestCase):
         self.assertColor("output/simple.png", RED, ((0, 0), (63, 63)))
         self.assertColor("output/simple.png", BLUE, ((64, 0), (127, 63)))
 
-        with codecs.open('output/simple.css', 'r', 'utf-8-sig') as f:
+        with open('output/simple.css', encoding='utf-8-sig') as f:
             content = f.read()
             self.assertEqual(content, f"custom css template for {12345}")
 
@@ -1001,7 +997,7 @@ class TestGlue(unittest.TestCase):
         self.assertColor("output/simple.png", RED, ((0, 0), (63, 63)))
         self.assertColor("output/simple.png", BLUE, ((64, 0), (127, 63)))
 
-        with codecs.open('output/simple.less', 'r', 'utf-8-sig') as f:
+        with open('output/simple.less', encoding='utf-8-sig') as f:
             content = f.read()
             self.assertEqual(content, f"custom less template for {12345}")
 
@@ -1021,7 +1017,7 @@ class TestGlue(unittest.TestCase):
         self.assertColor("output/simple.png", RED, ((0, 0), (63, 63)))
         self.assertColor("output/simple.png", BLUE, ((64, 0), (127, 63)))
 
-        with codecs.open('output/simple.scss', 'r', 'utf-8-sig') as f:
+        with open('output/simple.scss', encoding='utf-8-sig') as f:
             content = f.read()
             self.assertEqual(content, f"custom scss template for {12345}")
 
@@ -1043,7 +1039,7 @@ class TestGlue(unittest.TestCase):
 
         self.assertExists("output/simple.png")
         self.assertExists("output/simple.json")
-        with codecs.open('output/simple.json', 'r', 'utf-8-sig') as f:
+        with open('output/simple.json', encoding='utf-8-sig') as f:
             data = json.loads(f.read())
             assert isinstance(data['frames'], list)
 
@@ -1062,11 +1058,11 @@ class TestGlue(unittest.TestCase):
         self.assertExists("output/simple@2x.png")
         self.assertExists("output/simple@2x.json")
 
-        with codecs.open('output/simple.json', 'r', 'utf-8-sig') as f:
+        with open('output/simple.json', encoding='utf-8-sig') as f:
             data = json.loads(f.read())
             assert isinstance(data['frames'], list)
 
-        with codecs.open('output/simple@2x.json', 'r', 'utf-8-sig') as f:
+        with open('output/simple@2x.json', encoding='utf-8-sig') as f:
             data = json.loads(f.read())
             assert isinstance(data['frames'], list)
 
@@ -1078,7 +1074,7 @@ class TestGlue(unittest.TestCase):
 
         self.assertExists("output/simple.png")
         self.assertExists("output/simple.json")
-        with codecs.open('output/simple.json', 'r', 'utf-8-sig') as f:
+        with open('output/simple.json', encoding='utf-8-sig') as f:
             data = json.loads(f.read())
             assert isinstance(data['frames'], dict)
 
@@ -1571,7 +1567,8 @@ class TestGlue(unittest.TestCase):
         self.assertColor("output/simple.png", RED, ((0, 0), (63, 63)))
         self.assertColor("output/simple.png", BLUE, ((64, 0), (127, 63)))
 
-        meta = plistlib.load("output/simple.plist")
+        with open("output/simple.plist", 'rb') as f:
+            meta = plistlib.load(f)
         self.assertEqual(set(meta.keys()), set(['frames', 'metadata']))
         self.assertEqual(set(meta['frames'].keys()), set(['blue.png', 'red.png']))
 
@@ -1778,7 +1775,7 @@ class TestGlue(unittest.TestCase):
 
         self.assertExists("output/simple.png")
         self.assertExists("output/simple.json")
-        with codecs.open('output/simple.json', 'r', 'utf-8-sig') as f:
+        with open('output/simple.json', encoding='utf-8-sig') as f:
             data = json.loads(f.read())
             assert isinstance(data['sprites'], dict)
 
@@ -1793,11 +1790,11 @@ class TestGlue(unittest.TestCase):
         self.assertExists("output/simple@2x.png")
         self.assertExists("output/simple@2x.json")
 
-        with codecs.open('output/simple.json', 'r', 'utf-8-sig') as f:
+        with open('output/simple.json', encoding='utf-8-sig') as f:
             data = json.loads(f.read())
             assert isinstance(data['sprites'], dict)
 
-        with codecs.open('output/simple@2x.json', 'r', 'utf-8-sig') as f:
+        with open('output/simple@2x.json', encoding='utf-8-sig') as f:
             data = json.loads(f.read())
             assert isinstance(data['sprites'], dict)
 
