@@ -11,7 +11,7 @@ try:
 except ImportError:
     from io import StringIO
 
-from plistlib import readPlist
+import plistlib
 
 from PIL import Image as PILImage
 import cssutils
@@ -1571,7 +1571,7 @@ class TestGlue(unittest.TestCase):
         self.assertColor("output/simple.png", RED, ((0, 0), (63, 63)))
         self.assertColor("output/simple.png", BLUE, ((64, 0), (127, 63)))
 
-        meta = readPlist("output/simple.plist")
+        meta = plistlib.load("output/simple.plist")
         self.assertEqual(set(meta.keys()), set(['frames', 'metadata']))
         self.assertEqual(set(meta['frames'].keys()), set(['blue.png', 'red.png']))
 
