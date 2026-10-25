@@ -110,7 +110,7 @@ class ImageFormat(BaseFormat):
         if self.sprite.config['png8']:
             # Get the alpha band
             alpha = canvas.split()[-1]
-            canvas = canvas.convert('RGB'
+            canvas = canvas.convert('RGB',
                         ).convert('P',
                                   palette=PILImage.ADAPTIVE,
                                   colors=255)

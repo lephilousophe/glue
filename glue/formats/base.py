@@ -23,7 +23,8 @@ class BaseFormat:
     def output_filename(self, ratio=None, *args, **kwargs):
         if self.build_per_ratio:
             if ratio is None:
-                raise AttributeError(f"Format {self.__class__} output_filename requires a ratio.")
+                msg = f"Format {self.__class__} output_filename requires a ratio."
+                raise AttributeError(msg)
             ratio_suffix = f'@{ratio:.1f}x' if int(ratio) != ratio else f'@{int(ratio)}x'
             if ratio_suffix == '@1x':
                 ratio_suffix = ''

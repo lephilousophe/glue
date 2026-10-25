@@ -67,7 +67,7 @@ class Image(ConfigurableFromFile):
             else:
                 img.paste(source_image, (0, 0))
         except OSError as e:
-            raise PILUnavailableError(e.args[0].split()[1])
+            raise PILUnavailableError(e.args[0].split()[1]) from e
         finally:
             imageio.close()
 
@@ -107,7 +107,7 @@ class Image(ConfigurableFromFile):
         if len(data) == 4:
             pass
         elif len(data) == 3:
-            data = data + [data[1]]
+            data = [*data, data[1]]
         elif len(data) == 2:
             data = data * 2
         elif len(data) == 1:
@@ -151,12 +151,11 @@ class Image(ConfigurableFromFile):
             return self.filename > img.filename
         if ordering == 'width':
             return self.absolute_width <= img.absolute_width
-        elif ordering == 'height':
+        if ordering == 'height':
             return self.absolute_height <= img.absolute_height
-        elif ordering == 'area':
+        if ordering == 'area':
             return self.absolute_width * self.absolute_height <= img.absolute_width * img.absolute_height
-        else:
-            return max(self.absolute_width, self.absolute_height) <= max(img.absolute_width, img.absolute_height)
+        return max(self.absolute_width, self.absolute_height) <= max(img.absolute_width, img.absolute_height)
 
 
 class Sprite(ConfigurableFromFile):
@@ -213,12 +212,10 @@ class Sprite(ConfigurableFromFile):
         """
         hash_list = []
         for image in self.images:
-            hash_list.append(os.path.relpath(image.path))
-            hash_list.append(image._image_data)
+            hash_list.extend((os.path.relpath(image.path), image._image_data))
 
         for key, value in self.config.items():
-            hash_list.append(key)
-            hash_list.append(value)
+            hash_list.extend((key, value))
 
         return hashlib.sha1(''.join(map(str, hash_list)).encode('utf-8')).hexdigest()[:10] # ruff: ignore [hashlib-insecure-hash-function]
 
@@ -253,7 +250,7 @@ class Sprite(ConfigurableFromFile):
         files = sorted(os.listdir(self.path))
 
         images = []
-        for root, dirs, files in os.walk(self.path, followlinks=self.config['follow_links']):
+        for root, _dirs, files in os.walk(self.path, followlinks=self.config['follow_links']):
             for filename in sorted(files):
                 if not filename.startswith('.') and extension_re.match(filename):
                     images.append(Image(path=os.path.join(root, filename), config=self.config))

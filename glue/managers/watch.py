@@ -27,10 +27,10 @@ class WatchManager:
         change has occourred."""
 
         hash_list = []
-        for root, dirs, files in os.walk(self.options['source']):
+        for root, _dirs, files in os.walk(self.options['source']):
             for f in sorted([f for f in files if not f.startswith('.')]):
-                hash_list.append(os.path.join(root, f))
-                hash_list.append(str(os.path.getmtime(os.path.join(root, f))))
+                hash_list.extend((os.path.join(root, f),
+                    str(os.path.getmtime(os.path.join(root, f)))))
         hash_list = ''.join(hash_list)
 
         return hashlib.sha1(hash_list.encode('utf-8')).hexdigest() # ruff: ignore [hashlib-insecure-hash-function]

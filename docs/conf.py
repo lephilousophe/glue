@@ -221,5 +221,5 @@ latex_documents = [
 # (source start file, name, description, authors, manual section).
 man_pages = [
     ('index', 'glue', 'glue Documentation',
-     ['Jorge Bastida'], 1)
+     ['Jorge Bastida'], 1),
 ]

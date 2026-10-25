@@ -143,7 +143,8 @@ class CssFormat(JinjaTextFormat):
         if len(set(class_names)) != len(self.sprite.images):
             dup = [i for i in self.sprite.images if class_names.count(':'.join(self.generate_css_name(i.filename))) > 1]
             duptext = '\n'.join(['\t{} => .{}'.format(os.path.relpath(d.path), ':'.join(self.generate_css_name(d.filename))) for d in dup])
-            raise ValidationError(f"Error: Some images will have the same class name:\n{duptext}")
+            msg = f"Error: Some images will have the same class name:\n{duptext}"
+            raise ValidationError(msg)
         return True
 
     def output_filename(self, *args, **kwargs):

@@ -31,8 +31,8 @@ class Cocos2dFormat(BasePlistFormat):
                              'name': context['name'],
                              'format': 2,
                              'realTextureFileName': ratio_context['sprite_filename'],
-                             'textureFileName': ratio_context['sprite_filename']
-                }
+                             'textureFileName': ratio_context['sprite_filename'],
+                },
         }
         for i in context['images']:
             image_context = i['ratios'][ratio]

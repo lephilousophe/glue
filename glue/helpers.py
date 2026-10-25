@@ -60,5 +60,7 @@ class cached_property:
 def redirect_stdout(stream=None):
     stream = stream or StringIO()
     sys.stdout = stream
-    yield
-    sys.stdout = sys.__stdout__
+    try:
+        yield
+    finally:
+        sys.stdout = sys.__stdout__
