@@ -41,6 +41,9 @@ tests = [
     "pytest>=9.1,<9.2",
     "css-parser>=1.1,<2",
 ]
+lint = [
+    "ruff",
+]
 
 [project.urls]
 repository = "http://github.com/jorgebastida/glue"
@@ -53,3 +56,25 @@ packages = ["glue"]
 
 [tool.setuptools.dynamic]
 version = {attr = "glue.__version__"}
+
+[tool.pytest]
+minversion = "9.0"
+addopts = ["--import-mode=importlib"]
+strict = true
+testpaths = [
+    "tests.py",
+]
+
+[tool.ruff]
+target-version = "py38"
+
+[tool.ruff.lint]
+preview = true
+select = [
+    "correctness",
+    "suspicious",
+    "complexity",
+    "performance",
+    "style",
+    "security",
+]
