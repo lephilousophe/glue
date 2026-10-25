@@ -145,14 +145,13 @@ class BaseJSONFormat(BaseTextFormat):
     def needs_rebuild(self):
         for ratio in self.sprite.config['ratios']:
             json_path = self.output_path(ratio)
-            if os.path.exists(json_path):
+            try:
                 with open(json_path, encoding='utf-8') as f:
-                    try:
-                        data = json.loads(f.read())
-                        assert data[self.meta_key]['hash'] == self.sprite.hash
-                    except Exception:
-                        continue
-            return True
+                    data = json.loads(f.read())
+                    if data[self.meta_key]['hash'] != self.sprite.hash:
+                        return True
+            except (OSError, ValueError, KeyError):
+                return True
         return False
 
     def render(self, *args, **kwargs):
@@ -170,13 +169,13 @@ class BasePlistFormat(BaseTextFormat):
     def needs_rebuild(self):
         for ratio in self.sprite.config['ratios']:
             cocos2d_path = self.output_path(ratio)
-            if os.path.exists(cocos2d_path):
-                try:
-                    data = plistlib.readPlist(cocos2d_path)
-                    assert data[self.meta_key]['hash'] == self.sprite.hash
-                except Exception:
-                    continue
-            return True
+            try:
+                with open(cocos2d_path, 'rb') as f:
+                    data = plistlib.load(f)
+                if data[self.meta_key]['hash'] != self.sprite.hash:
+                    return True
+            except (OSError, ValueError, KeyError):
+                return True
         return False
 
 

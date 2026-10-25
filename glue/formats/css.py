@@ -132,8 +132,9 @@ class CssFormat(JinjaTextFormat):
         try:
             with open(self.output_path(), encoding='utf-8') as existing_css:
                 first_line = existing_css.readline()
-                assert first_line == hash_line
-        except Exception:
+                if first_line != hash_line:
+                    return True
+        except OSError:
             return True
         return False
 
