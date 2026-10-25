@@ -11,9 +11,9 @@ class CssFormat(JinjaTextFormat):
 
     extension = 'css'
     camelcase_separator = 'camelcase'
-    css_pseudo_classes = set(['link', 'visited', 'active', 'hover', 'focus',
+    css_pseudo_classes = {'link', 'visited', 'active', 'hover', 'focus',
                               'first-letter', 'first-line', 'first-child',
-                              'before', 'after'])
+                              'before', 'after'}
 
     template = """
         /* glue: {{ version }} hash: {{ hash }} */

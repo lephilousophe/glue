@@ -23,11 +23,11 @@ class CAATFormat(BaseJSONFormat):
     def get_context(self, *args, **kwargs):
         context = super().get_context(*args, **kwargs)
 
-        data = dict(sprites={}, meta={'version': context['version'],
+        data = {'sprites': {}, 'meta': {'version': context['version'],
                                       'hash': context['hash'],
                                       'sprite_filename': context['sprite_filename'],
                                       'width': context['width'],
-                                      'height': context['height']})
+                                      'height': context['height']}}
         for i in context['images']:
             data['sprites'][i['filename']] = {"x" : i['abs_x'],
                                               "y" : i['abs_y'],

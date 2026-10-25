@@ -52,7 +52,7 @@ class BaseFormat:
     @property
     def format_label(self):
         from glue.formats import formats
-        return dict((v,k) for k, v in formats.items())[self.__class__]
+        return {v: k for k, v in formats.items()}[self.__class__]
 
     @classmethod
     def populate_argument_parser(cls, parser):
@@ -89,27 +89,27 @@ class BaseTextFormat(BaseFormat):
             base_abs_x = img.x + img.margin[3] * self.sprite.max_ratio
             base_abs_y = img.y + img.margin[0] * self.sprite.max_ratio
 
-            image = dict(filename=img.filename,
-                         last=i == len(self.sprite.images) - 1,
-                         x=round_up(base_x / self.sprite.max_ratio),
-                         y=round_up(base_y / self.sprite.max_ratio),
-                         abs_x=round_up(base_abs_x / self.sprite.max_ratio),
-                         abs_y=round_up(base_abs_y / self.sprite.max_ratio),
-                         height=round_up((img.height / self.sprite.max_ratio) + img.padding[0] + img.padding[2]),
-                         width=round_up((img.width / self.sprite.max_ratio) + img.padding[1] + img.padding[3]),
-                         original_width=img.original_width,
-                         original_height=img.original_height,
-                         ratios={})
+            image = {'filename': img.filename,
+                         'last': i == len(self.sprite.images) - 1,
+                         'x': round_up(base_x / self.sprite.max_ratio),
+                         'y': round_up(base_y / self.sprite.max_ratio),
+                         'abs_x': round_up(base_abs_x / self.sprite.max_ratio),
+                         'abs_y': round_up(base_abs_y / self.sprite.max_ratio),
+                         'height': round_up((img.height / self.sprite.max_ratio) + img.padding[0] + img.padding[2]),
+                         'width': round_up((img.width / self.sprite.max_ratio) + img.padding[1] + img.padding[3]),
+                         'original_width': img.original_width,
+                         'original_height': img.original_height,
+                         'ratios': {}}
 
             for r in self.sprite.ratios:
-                image['ratios'][r] = dict(filename=img.filename,
-                                          last=i == len(self.sprite.images) - 1,
-                                          x=round_up(base_x / self.sprite.max_ratio * r),
-                                          y=round_up(base_y / self.sprite.max_ratio * r),
-                                          abs_x=round_up(base_abs_x / self.sprite.max_ratio * r),
-                                          abs_y=round_up(base_abs_y / self.sprite.max_ratio * r),
-                                          height=round_up((img.height + img.padding[0] + img.padding[2]) / self.sprite.max_ratio * r),
-                                          width=round_up((img.width + img.padding[1] + img.padding[3]) / self.sprite.max_ratio * r))
+                image['ratios'][r] = {'filename': img.filename,
+                                          'last': i == len(self.sprite.images) - 1,
+                                          'x': round_up(base_x / self.sprite.max_ratio * r),
+                                          'y': round_up(base_y / self.sprite.max_ratio * r),
+                                          'abs_x': round_up(base_abs_x / self.sprite.max_ratio * r),
+                                          'abs_y': round_up(base_abs_y / self.sprite.max_ratio * r),
+                                          'height': round_up((img.height + img.padding[0] + img.padding[2]) / self.sprite.max_ratio * r),
+                                          'width': round_up((img.width + img.padding[1] + img.padding[3]) / self.sprite.max_ratio * r)}
 
             context['images'].append(image)
 
@@ -117,12 +117,12 @@ class BaseTextFormat(BaseFormat):
         for r in self.sprite.ratios:
             ratio_sprite_path = os.path.relpath(self.sprite.sprite_path(ratio=r), self.output_dir())
             ratio_sprite_path = self.fix_windows_path(ratio_sprite_path)
-            context['ratios'][r] = dict(ratio=r,
-                                        fraction=nearest_fration(r),
-                                        sprite_path=ratio_sprite_path,
-                                        sprite_filename=os.path.basename(ratio_sprite_path),
-                                        width=round_up(self.sprite.canvas_size[0] / self.sprite.max_ratio * r),
-                                        height=round_up(self.sprite.canvas_size[1] / self.sprite.max_ratio * r))
+            context['ratios'][r] = {'ratio': r,
+                                        'fraction': nearest_fration(r),
+                                        'sprite_path': ratio_sprite_path,
+                                        'sprite_filename': os.path.basename(ratio_sprite_path),
+                                        'width': round_up(self.sprite.canvas_size[0] / self.sprite.max_ratio * r),
+                                        'height': round_up(self.sprite.canvas_size[1] / self.sprite.max_ratio * r)}
 
         return context
 

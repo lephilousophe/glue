@@ -173,7 +173,7 @@ class Sprite(ConfigurableFromFile):
 
         # Setup ratios
         ratios = self.config['ratios'].split(',')
-        ratios = set([float(r.strip()) for r in ratios if r.strip()])
+        ratios = {float(rs) for r in ratios if (rs := r.strip())}
 
         # Always add 1.0 as a required ratio
         ratios.add(1.0)

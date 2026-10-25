@@ -104,7 +104,7 @@ class ImageFormat(BaseFormat):
         meta.add_text('Comment', self.sprite.hash)
 
         # Customize how the png is going to be saved
-        kwargs = dict(optimize=False, pnginfo=meta)
+        kwargs = {'optimize': False, 'pnginfo': meta}
 
         if self.sprite.config['png8']:
             # Get the alpha band

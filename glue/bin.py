@@ -136,7 +136,7 @@ def main(argv=None):
     # In order to keep the legacy API we need to enable css.
     # As consequence there is no way to make glue only generate the sprite
     # image and the html file without generating the css file too.
-    if set(options.enabled_formats) in (set(['img']), set(['img', 'html'])) and options.generate_css:
+    if set(options.enabled_formats) in ({'img'}, {'img', 'html'}) and options.generate_css:
         options.enabled_formats.append('css')
         setattr(options, "css_dir", True)
 

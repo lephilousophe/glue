@@ -102,7 +102,7 @@ class TestGlue(unittest.TestCase):
             os.makedirs(dirname)
         image = PILImage.new('RGB', size, color)
         if margin:
-            background = PILImage.new('RGBA', list(map(lambda x: x + margin, size)), margin_color)
+            background = PILImage.new('RGBA', [x + margin for x in size], margin_color)
             background.paste(image, tuple(map(int, (margin / 2, margin / 2))))
             background.save(path)
         else:
@@ -1566,8 +1566,8 @@ class TestGlue(unittest.TestCase):
 
         with open("output/simple.plist", 'rb') as f:
             meta = plistlib.load(f)
-        self.assertEqual(set(meta.keys()), set(['frames', 'metadata']))
-        self.assertEqual(set(meta['frames'].keys()), set(['blue.png', 'red.png']))
+        self.assertEqual(set(meta.keys()), {'frames', 'metadata'})
+        self.assertEqual(set(meta['frames'].keys()), {'blue.png', 'red.png'})
 
         code = self.call("glue simple output --cocos2d")
         self.assertEqual(code, 0)
