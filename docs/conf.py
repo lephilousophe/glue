@@ -49,16 +49,16 @@ copyright = u'2013, Jorge Bastida'
 #
 # The short X.Y version.
 
-import pkg_resources
+import importlib.metadata
 try:
-    release = pkg_resources.get_distribution('glue').version
-except pkg_resources.DistributionNotFound:
+    release = importlib.metadata.version('glue')
+except importlib.metadata.PackageNotFoundError:
     print ('To build the documentation, The distribution information of glue')
     print ('Has to be available.  Either install the package into your')
     print ('development environment or run "setup.py develop" to setup the')
     print ('metadata.  A virtualenv is recommended!')
     sys.exit(1)
-del pkg_resources
+del importlib
 
 version = '.'.join(release.split('.')[:2])
 
