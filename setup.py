@@ -6,11 +6,12 @@ from setuptools import setup, find_packages
 
 install_requires=[
     'Pillow>=2.2.2',
-    'Jinja2>=2.7,<2.10',
+    'Jinja2>=3.1,<3.2',
 ]
 
 tests_require=[
-    'cssutils>=0.9.10,<1.0',
+    'pytest>=9.1,<9.2',
+    'cssutils>=2.0,<3',
 ]
 
 setup(
