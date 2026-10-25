@@ -21,7 +21,7 @@ class JSONFormat(BaseJSONFormat):
                            dest="json_dir",
                            nargs='?',
                            const=True,
-                           default=os.environ.get('GLUE_JSON', False),
+                           default=os.environ.get('GLUE_JSON', False), # ruff: ignore [invalid-envvar-default]
                            metavar='DIR',
                            help="Generate JSON files and optionally where")
 

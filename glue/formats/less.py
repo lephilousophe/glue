@@ -37,7 +37,7 @@ class LessFormat(CssFormat):
                            dest="less_dir",
                            nargs='?',
                            const=True,
-                           default=os.environ.get('GLUE_LESS', False),
+                           default=os.environ.get('GLUE_LESS', False), # ruff: ignore [invalid-envvar-default]
                            metavar='DIR',
                            help="Generate LESS files and optionally where")
 

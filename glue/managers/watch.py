@@ -33,7 +33,7 @@ class WatchManager:
                 hash_list.append(str(os.path.getmtime(os.path.join(root, f))))
         hash_list = ''.join(hash_list)
 
-        return hashlib.sha1(hash_list.encode('utf-8')).hexdigest()
+        return hashlib.sha1(hash_list.encode('utf-8')).hexdigest() # ruff: ignore [hashlib-insecure-hash-function]
 
     def signal_handler(self, signal, frame):
         """ Gracefully close the app if Ctrl+C is pressed."""

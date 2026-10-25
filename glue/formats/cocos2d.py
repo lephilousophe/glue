@@ -16,7 +16,7 @@ class Cocos2dFormat(BasePlistFormat):
                            dest="cocos2d_dir",
                            nargs='?',
                            const=True,
-                           default=os.environ.get('GLUE_COCOS2D', False),
+                           default=os.environ.get('GLUE_COCOS2D', False), # ruff: ignore [invalid-envvar-default]
                            metavar='DIR',
                            help="Generate Cocos2d files and optionally where")
 

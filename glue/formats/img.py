@@ -21,20 +21,20 @@ class ImageFormat(BaseFormat):
         group.add_argument("--img",
                            dest="img_dir",
                            type=str,
-                           default=os.environ.get('GLUE_IMG', True),
+                           default=os.environ.get('GLUE_IMG', True), # ruff: ignore [invalid-envvar-default]
                            metavar='DIR',
                            help="Output directory for img files")
 
         group.add_argument("--no-img",
                            dest="generate_image",
                            action="store_false",
-                           default=os.environ.get('GLUE_GENERATE_IMG', True),
+                           default=os.environ.get('GLUE_GENERATE_IMG', True), # ruff: ignore [invalid-envvar-default]
                            help="Don't genereate IMG files.")
 
         group.add_argument("-c", "--crop",
                            dest="crop",
                            action='store_true',
-                           default=os.environ.get('GLUE_CROP', False),
+                           default=os.environ.get('GLUE_CROP', False), # ruff: ignore [invalid-envvar-default]
                            help="Crop images removing unnecessary transparent margins")
 
         group.add_argument("-p", "--padding",
@@ -52,7 +52,7 @@ class ImageFormat(BaseFormat):
         group.add_argument("--png8",
                            action="store_true",
                            dest="png8",
-                           default=os.environ.get('GLUE_PNG8', False),
+                           default=os.environ.get('GLUE_PNG8', False), # ruff: ignore [invalid-envvar-default]
                            help=("The output image format will be png8 "
                                  "instead of png32"))
 
@@ -64,7 +64,7 @@ class ImageFormat(BaseFormat):
 
         group.add_argument("--retina",
                            dest="ratios",
-                           default=os.environ.get('GLUE_RETINA', False),
+                           default=os.environ.get('GLUE_RETINA', False), # ruff: ignore [invalid-envvar-default]
                            action='store_const',
                            const='2,1',
                            help="Shortcut for --ratios=2,1")
@@ -127,7 +127,7 @@ class ImageFormat(BaseFormat):
         canvas, kwargs = self._raw_canvas
 
         # Loop all over the ratios and save one image for each one
-        for ratio in self.sprite.config['ratios']:
+        for ratio in self.sprite.config['ratios']: # ruff: ignore [redefined-argument-from-local]
 
             # Create the destination directory if required
             if not os.path.exists(self.output_dir(ratio=ratio)):

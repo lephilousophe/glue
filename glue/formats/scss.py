@@ -15,7 +15,7 @@ class ScssFormat(CssFormat):
                            dest="scss_dir",
                            nargs='?',
                            const=True,
-                           default=os.environ.get('GLUE_SCSS', False),
+                           default=os.environ.get('GLUE_SCSS', False), # ruff: ignore [invalid-envvar-default]
                            metavar='DIR',
                            help="Generate SCSS files and optionally where")
 

@@ -16,7 +16,7 @@ class CAATFormat(BaseJSONFormat):
                            dest="caat_dir",
                            nargs='?',
                            const=True,
-                           default=os.environ.get('GLUE_CAAT', False),
+                           default=os.environ.get('GLUE_CAAT', False), # ruff: ignore [invalid-envvar-default]
                            metavar='DIR',
                            help="Generate CAAT files and optionally where")
 

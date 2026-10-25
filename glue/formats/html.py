@@ -40,7 +40,7 @@ class HtmlFormat(CssFormat):
                            dest="html_dir",
                            nargs='?',
                            const=True,
-                           default=os.environ.get('GLUE_HTML', False),
+                           default=os.environ.get('GLUE_HTML', False), # ruff: ignore [invalid-envvar-default]
                            metavar='DIR',
                            help="Generate html files and optionally where")
 

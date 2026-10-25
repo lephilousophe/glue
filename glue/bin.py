@@ -31,26 +31,26 @@ def main(argv=None):
     parser.add_argument("-q", "--quiet",
                         dest="quiet",
                         action='store_true',
-                        default=os.environ.get('GLUE_QUIET', False),
+                        default=os.environ.get('GLUE_QUIET', False), # ruff: ignore [invalid-envvar-default]
                         help="Suppress all normal output")
 
     parser.add_argument("-r", "--recursive",
                         dest="recursive",
                         action='store_true',
-                        default=os.environ.get('GLUE_RECURSIVE', False),
+                        default=os.environ.get('GLUE_RECURSIVE', False), # ruff: ignore [invalid-envvar-default]
                         help=("Read directories recursively and add all "
                               "the images to the same sprite."))
 
     parser.add_argument("--follow-links",
                         dest="follow_links",
                         action='store_true',
-                        default=os.environ.get('GLUE_FOLLOW_LINKS', False),
+                        default=os.environ.get('GLUE_FOLLOW_LINKS', False), # ruff: ignore [invalid-envvar-default]
                         help="Follow symbolic links.")
 
     parser.add_argument("-f", "--force",
                         dest="force",
                         action='store_true',
-                        default=os.environ.get('GLUE_FORCE', False),
+                        default=os.environ.get('GLUE_FORCE', False), # ruff: ignore [invalid-envvar-default]
                         help=("Force glue to create every sprite image and "
                               "metadata file even if they already exists in "
                               "the output directory."))
@@ -58,14 +58,14 @@ def main(argv=None):
     parser.add_argument("-w", "--watch",
                         dest="watch",
                         action='store_true',
-                        default=os.environ.get('GLUE_WATCH', False),
+                        default=os.environ.get('GLUE_WATCH', False), # ruff: ignore [invalid-envvar-default]
                         help=("Watch the source folder for changes and rebuild "
                               "when new files appear, disappear or change."))
 
     parser.add_argument("--project",
                         dest="project",
                         action="store_true",
-                        default=os.environ.get('GLUE_PROJECT', False),
+                        default=os.environ.get('GLUE_PROJECT', False), # ruff: ignore [invalid-envvar-default]
                         help="Generate sprites for multiple folders")
 
     parser.add_argument("-v", "--version",
@@ -246,7 +246,7 @@ def main(argv=None):
                           "install it before spriting this kind of "
                           "images.\n")
         return e.error_code
-    except Exception:
+    except Exception: # ruff: ignore [blind-except]
         import platform
         import traceback
         sys.stderr.write("\n")

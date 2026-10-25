@@ -220,7 +220,7 @@ class Sprite(ConfigurableFromFile):
             hash_list.append(key)
             hash_list.append(value)
 
-        return hashlib.sha1(''.join(map(str, hash_list)).encode('utf-8')).hexdigest()[:10]
+        return hashlib.sha1(''.join(map(str, hash_list)).encode('utf-8')).hexdigest()[:10] # ruff: ignore [hashlib-insecure-hash-function]
 
     @cached_property
     def canvas_size(self):

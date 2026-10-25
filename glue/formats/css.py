@@ -47,7 +47,7 @@ class CssFormat(JinjaTextFormat):
                            dest="css_dir",
                            nargs='?',
                            const=True,
-                           default=os.environ.get('GLUE_CSS', False),
+                           default=os.environ.get('GLUE_CSS', False), # ruff: ignore [invalid-envvar-default]
                            metavar='DIR',
                            help="Generate CSS files and optionally where")
 
@@ -72,7 +72,7 @@ class CssFormat(JinjaTextFormat):
 
         group.add_argument("--cachebuster",
                            dest="css_cachebuster",
-                           default=os.environ.get('GLUE_CSS_CACHEBUSTER', False),
+                           default=os.environ.get('GLUE_CSS_CACHEBUSTER', False), # ruff: ignore [invalid-envvar-default]
                            action='store_true',
                            help=("Use the sprite's sha1 first 6 characters as a "
                                  "queryarg everytime that file is referred "
@@ -80,14 +80,14 @@ class CssFormat(JinjaTextFormat):
 
         group.add_argument("--cachebuster-filename",
                            dest="css_cachebuster_filename",
-                           default=os.environ.get('GLUE_CSS_CACHEBUSTER', False),
+                           default=os.environ.get('GLUE_CSS_CACHEBUSTER', False), # ruff: ignore [invalid-envvar-default]
                            action='store_true',
                            help=("Append the sprite's sha first 6 characters "
                                  "to the output filename"))
 
         group.add_argument("--cachebuster-filename-only-sprites",
                            dest="css_cachebuster_only_sprites",
-                           default=os.environ.get('GLUE_CSS_CACHEBUSTER_ONLY_SPRITES', False),
+                           default=os.environ.get('GLUE_CSS_CACHEBUSTER_ONLY_SPRITES', False), # ruff: ignore [invalid-envvar-default]
                            action='store_true',
                            help=("Only apply cachebuster to sprite images."))
 
@@ -118,7 +118,7 @@ class CssFormat(JinjaTextFormat):
         group.add_argument("--no-css",
                            dest="generate_css",
                            action="store_false",
-                           default=os.environ.get('GLUE_GENERATE_CSS', True),
+                           default=os.environ.get('GLUE_GENERATE_CSS', True), # ruff: ignore [invalid-envvar-default]
                            help="Don't genereate CSS files.")
 
     @classmethod
@@ -189,7 +189,7 @@ class CssFormat(JinjaTextFormat):
             sprite_namespace = self.sprite.config['css_sprite_namespace']
 
             # Support legacy 0.4 format
-            sprite_namespace = sprite_namespace.replace("%(sprite)s", "{sprite_name}")
+            sprite_namespace = sprite_namespace.replace("%(sprite)s", "{sprite_name}") # ruff: ignore [missing-f-string-syntax]
             namespace.insert(0, sprite_namespace.format(sprite_name=sprite_name))
 
         # Add global namespace if required
