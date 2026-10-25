@@ -48,14 +48,10 @@ class TestGlue(unittest.TestCase):
         os.makedirs(self.output_path)
         self.pwd = os.getcwd()
         os.chdir(self.output_path)
-        sys.stdout = StringIO()
-        sys.stderr = StringIO()
 
     def tearDown(self):
         os.chdir(self.pwd)
         shutil.rmtree(self.output_path, True)
-        sys.stdout = sys.__stdout__
-        sys.stderr = sys.__stderr__
 
     def _exists(self, path):
         return os.path.exists(path)
