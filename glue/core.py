@@ -105,7 +105,7 @@ class Image(ConfigurableFromFile):
         data = data.split(',' if ',' in data else ' ')
 
         if len(data) == 4:
-            data = data
+            pass
         elif len(data) == 3:
             data = data + [data[1]]
         elif len(data) == 2:
@@ -148,7 +148,7 @@ class Image(ConfigurableFromFile):
         ordering = ordering[1:] if ordering.startswith('-') else ordering
 
         if ordering == "filename":
-            return sorted([self.filename, img.filename])[0] == img.filename
+            return self.filename > img.filename
         if ordering == 'width':
             return self.absolute_width <= img.absolute_width
         elif ordering == 'height':
@@ -163,7 +163,7 @@ class Sprite(ConfigurableFromFile):
 
     config_filename = 'sprite.conf'
     config_section = 'sprite'
-    valid_extensions = ['png', 'jpg', 'jpeg', 'gif']
+    valid_extensions = ('png', 'jpg', 'jpeg', 'gif')
 
     def __init__(self, path, config, name=None):
         self.path = self.config_path = path
@@ -229,10 +229,8 @@ class Sprite(ConfigurableFromFile):
         for image in self.images:
             x = image.x + image.absolute_width
             y = image.y + image.absolute_height
-            if width < x:
-                width = x
-            if height < y:
-                height = y
+            width  = max(width, x)
+            height = max(height, y)
         return round_up(width), round_up(height)
 
     def sprite_path(self, ratio=1.0):

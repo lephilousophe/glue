@@ -138,15 +138,15 @@ def main(argv=None):
     # image and the html file without generating the css file too.
     if set(options.enabled_formats) in ({'img'}, {'img', 'html'}) and options.generate_css:
         options.enabled_formats.append('css')
-        setattr(options, "css_dir", True)
+        options.css_dir = True
 
     if not options.generate_image:
         options.enabled_formats.remove('img')
 
     # Fail if any of the deprecated arguments is used
-    for argument in deprecated_arguments.keys():
+    for argument, arg_name in deprecated_arguments.items():
         if getattr(options, argument, None):
-            parser.error(f"{deprecated_arguments[argument]} argument is deprectated "
+            parser.error(f"{arg_name} argument is deprecated "
                           "since v0.3")
 
     extra = 0

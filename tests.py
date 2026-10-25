@@ -88,8 +88,8 @@ class TestGlue(unittest.TestCase):
                 if class_name in [c.selectorText for c in rule.selectorList]:
                     for declaration in rule.style.getProperties():
                         file_properties[declaration.name] = declaration.value
-            elif isinstance(rule, css_parser.css.CSSMediaRule) and ratio:
-                if f'min-resolution: {ratio}' in rule.media.mediaText:
+            elif isinstance(rule, css_parser.css.CSSMediaRule) and (
+                ratio and f'min-resolution: {ratio}' in rule.media.mediaText):
                     for media_rule in rule.cssRules:
                         if class_name in [c.selectorText for c in media_rule.selectorList]:
                             for declaration in media_rule.style.getProperties():
@@ -1578,6 +1578,7 @@ class TestGlue(unittest.TestCase):
         os.mkdir('simple')
         code, output = self.call("glue simple output", capture=True)
         self.assertEqual(code, 1)
+        self.assertEqual(output, '')
 
     def test_custom_paths(self):
         self.create_image("simple/red.png", RED)

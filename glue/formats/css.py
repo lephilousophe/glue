@@ -11,9 +11,9 @@ class CssFormat(JinjaTextFormat):
 
     extension = 'css'
     camelcase_separator = 'camelcase'
-    css_pseudo_classes = {'link', 'visited', 'active', 'hover', 'focus',
+    css_pseudo_classes = frozenset(('link', 'visited', 'active', 'hover', 'focus',
                               'first-letter', 'first-line', 'first-child',
-                              'before', 'after'}
+                              'before', 'after'))
 
     template = """
         /* glue: {{ version }} hash: {{ hash }} */
@@ -162,7 +162,7 @@ class CssFormat(JinjaTextFormat):
         if self.sprite.config['css_url']:
             context['sprite_path'] = '{}{}'.format(self.sprite.config['css_url'], context['sprite_filename'])
 
-            for r, ratio in context['ratios'].items():
+            for ratio in context['ratios'].values():
                 ratio['sprite_path'] = '{}{}'.format(self.sprite.config['css_url'], ratio['sprite_filename'])
 
         # Add cachebuster if required
@@ -173,7 +173,7 @@ class CssFormat(JinjaTextFormat):
 
             context['sprite_path'] = apply_cachebuster(context['sprite_path'])
 
-            for r, ratio in context['ratios'].items():
+            for ratio in context['ratios'].values():
                 ratio['sprite_path'] = apply_cachebuster(ratio['sprite_path'])
 
         return context
